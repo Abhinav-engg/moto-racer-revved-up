@@ -1,0 +1,12 @@
+export const CANVAS_WIDTH = 800;
+export const CANVAS_HEIGHT = 600;
+export const ROAD_WIDTH = 2000;
+export const SEGMENT_LENGTH = 200;
+export const CAMERA_HEIGHT = 1000;
+export const CAMERA_DEPTH = 0.84;
+export const MAX_SPEED = 300;
+export const ACCEL = 350;
+export const BRAKE = 600;
+export const DECEL = 200;
+export const STEER_SPEED = 2.5;
+export const ROAD_SEGMENTS = 200;
