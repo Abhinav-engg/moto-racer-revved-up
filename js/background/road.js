@@ -32,11 +32,11 @@ export function createRoad() {
 
 export function projectSegment(segment) {
 
-    const relativeZ = segment.z - state.cameraZ;
+    let relativeZ = segment.z - state.cameraZ;
 
-    if (relativeZ <= 0) {
-        return null;
-    }
+if (relativeZ < 0) {
+    relativeZ += state.tracklength;
+}
 
     const scale = CAMERA_DEPTH / relativeZ;
 
@@ -87,10 +87,15 @@ export function drawRoad(ctx) {
             next.y
         );
         ctx.closePath();
-        ctx.fillStyle = i % 2 === 0
-            ? 'lightgray'
-            : 'darkgray';
+        ctx.fillStyle = 'gray';
 
         ctx.fill();
+    }
+}
+
+export function updateRoad(deltaTime) {
+    state.cameraZ += state.speed * deltaTime;
+    if (state.cameraZ >= state.tracklength) {
+        state.cameraZ %= state.tracklength;
     }
 }

@@ -1,10 +1,12 @@
-let road = [];
-let tracklength = 0;
 
-let cameraX = 0;
-let cameraZ =0;
- 
-let playerZ = 0;
-let playerX = 0;
 
-let speed = 0;
+
+export const state = {
+	road: [],
+	tracklength: 0,
+	cameraX: 0,
+	cameraZ: 0,
+	playerZ: 0,
+	playerX: 0,
+	speed: 0
+};

@@ -6,15 +6,21 @@ import {
 
 import {
     createRoad,
-    drawRoad
+    drawRoad,
+    updateRoad
 } from './background/road.js';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
+
+
 createRoad();
 
-function update() {
+state.speed = 300;
+
+function update(deltaTime) {
+    updateRoad(deltaTime);
 
 }
 
@@ -24,12 +30,15 @@ function draw() {
 
     drawRoad(ctx);
 }
+let lastTime = performance.now();
+function gameLoop(currentTime) {
+    const deltaTime = (currentTime - lastTime) / 1000;
+    lastTime = currentTime;
 
-function gameLoop() {
-    update();
+    update(deltaTime);
     draw();
 
     requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+requestAnimationFrame(gameLoop);
