@@ -5,6 +5,7 @@ import {
 } from './variables/variable.js';
 import { drawGrass } from './background/grass.js';
 
+import { setupInputs } from './inputs/inputs.js';
 import {
     createRoad,
     updateRoad,
@@ -13,7 +14,7 @@ import {
     drawLaneMarkings,
     addCurve
 } from './background/road.js';
-import { drawPlayer } from './play/player.js';
+import { drawPlayer, updatePlayer } from './play/player.js';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -21,17 +22,15 @@ const ctx = canvas.getContext('2d');
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
-
+setupInputs();
 
 createRoad();
 
 state.speed = 3000;
 
-
-
 function update(deltaTime) {
     updateRoad(deltaTime);
-
+    updatePlayer(deltaTime);
 }
 
 function draw() {

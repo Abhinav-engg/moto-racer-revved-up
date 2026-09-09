@@ -1,10 +1,11 @@
-let inputState = {
+export const inputState = {
     accelerate: false,
     brake: false,
     left: false,
     right: false,
     nitro: false,
-}
+    wheelie: false
+};
 
 export function setupInputs(){
 
