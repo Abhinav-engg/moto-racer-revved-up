@@ -113,6 +113,9 @@ export function drawRoad(ctx) {
 export function updateRoad(deltaTime) {
     state.cameraZ += state.speed * deltaTime;
     if (state.tracklength > 0) {
+        if (state.cameraZ >= state.tracklength) {
+            state.lap++;
+        }
         state.cameraZ %= state.tracklength;
         if (state.cameraZ < 0) {
             state.cameraZ += state.tracklength;

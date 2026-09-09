@@ -29,6 +29,7 @@ canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
 const timerValue = document.getElementById('timer');
+const lapValue = document.getElementById('lap');
 let timeLeft = 300;
 
 function updateTimer(deltaTime) {
@@ -37,6 +38,12 @@ function updateTimer(deltaTime) {
     const seconds = Math.floor(timeLeft % 60);
     if (timerValue) {
         timerValue.textContent = `${minutes}:${seconds}`;
+    }
+}
+
+function updateLap() {
+    if (lapValue) {
+        lapValue.textContent = `${String(state.lap).padStart(2, '0')}/03`;
     }
 }
 
@@ -49,6 +56,7 @@ function update(deltaTime) {
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
     updateTimer(deltaTime);
+    updateLap();
 }
 
 function draw() {
