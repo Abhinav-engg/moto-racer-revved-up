@@ -28,6 +28,18 @@ const ctx = canvas.getContext('2d');
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 
+const timerValue = document.getElementById('timer');
+let timeLeft = 300;
+
+function updateTimer(deltaTime) {
+    timeLeft = Math.max(0, timeLeft - deltaTime);
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = Math.floor(timeLeft % 60);
+    if (timerValue) {
+        timerValue.textContent = `${minutes}:${seconds}`;
+    }
+}
+
 buildTrack();
 setupInputs();
 
@@ -36,6 +48,7 @@ state.speed = 3000;
 function update(deltaTime) {
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
+    updateTimer(deltaTime);
 }
 
 function draw() {
