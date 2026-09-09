@@ -55,6 +55,10 @@ function updateNitro() {
     }
 }
 
+function updateLives() {
+    const hearts = document.querySelectorAll('#lives');
+}
+
 buildTrack();
 setupInputs();
 
@@ -66,6 +70,7 @@ function update(deltaTime) {
     updateTimer(deltaTime);
     updateLap();
     updateNitro();
+    updateLives();
 }
 
 function draw() {
