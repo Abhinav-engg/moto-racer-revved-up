@@ -73,10 +73,6 @@ export function drawRoad(ctx) {
         const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
         const nextIndex =(baseIndex+i+1)%ROAD_SEGMENTS;
 
-        if (nextIndex < currentIndex) {
-            continue;
-        }
-
         const current =projectSegment(state.road[currentIndex]);
         const next = projectSegment(state.road[nextIndex]);
 
@@ -134,10 +130,6 @@ export function drawRoadShoulders(ctx) {
 
         const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
         const nextIndex = (baseIndex + i + 1) % ROAD_SEGMENTS;
-        if (nextIndex < currentIndex) {
-            continue;
-        }
-
         const current = projectSegment(state.road[currentIndex]);
         const next = projectSegment(state.road[nextIndex]);
 
@@ -190,10 +182,6 @@ export function drawLaneMarkings(ctx) {
 
         const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
         const nextIndex = (baseIndex + i + 1) % ROAD_SEGMENTS;
-        if (nextIndex < currentIndex) {
-            continue;
-        }
-
         const current = projectSegment(state.road[currentIndex]);
         const next = projectSegment(state.road[nextIndex]);
 
@@ -279,6 +267,19 @@ export function getRoadX(z) {
 
     const progress = segmentPosition - Math.floor(segmentPosition);
     return segment.x + (nextSegment.x - segment.x) * progress;
+}
+
+export function closeRoad() {
+    if (state.road.length < 2) {
+        return;
+    }
+
+    const endOffset = state.road[state.road.length - 1].x;
+    const lastIndex = state.road.length - 1;
+
+    for (let i = 0; i < state.road.length; i++) {
+        state.road[i].x -= endOffset * (i / lastIndex);
+    }
 }
 
 

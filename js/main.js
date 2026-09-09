@@ -5,8 +5,6 @@ import {
 } from './variables/variable.js';
 import { drawGrass } from './background/grass.js';
 import { inputState, setupInputs } from './inputs/inputs.js';
-
-import { setupInputs } from './inputs/inputs.js';
 import {
     createRoad,
     updateRoad,
@@ -29,9 +27,6 @@ const ctx = canvas.getContext('2d');
 
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
-
-setupInputs();
-
 
 buildTrack();
 setupInputs();
