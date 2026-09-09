@@ -8,7 +8,8 @@ import {
     ROAD_SEGMENTS,
     CAMERA_HEIGHT,
     CAMERA_DEPTH,
-    DRAW_DISTANCE
+    DRAW_DISTANCE,
+    STEER_SPEED
 }from '../variables/variable.js';
 
 
@@ -29,8 +30,7 @@ export function createRoad() {
 
     state.tracklength = ROAD_SEGMENTS *SEGMENT_LENGTH;
 
-    addCurve(20, 40, 3000);
-    addCurve(60, 40, -3000);
+    
        
 }
 
@@ -116,8 +116,11 @@ export function drawRoad(ctx) {
 
 export function updateRoad(deltaTime) {
     state.cameraZ += state.speed * deltaTime;
-    if (state.cameraZ >= state.tracklength) {
+    if (state.tracklength > 0) {
         state.cameraZ %= state.tracklength;
+        if (state.cameraZ < 0) {
+            state.cameraZ += state.tracklength;
+        }
     }
 
     state.cameraX = getRoadX(state.cameraZ);
@@ -260,13 +263,38 @@ export function addCurve(start,length,curve){
 }
 
 export function getRoadX(z) {
-
-    const index = Math.floor(z / SEGMENT_LENGTH) % ROAD_SEGMENTS;
-    const segment = state.road[index];
-
-    if (!segment) {
+    if (state.road.length == 0) {
         return 0;
     }
 
-    return segment.x;
+    const segmentPosition = z / SEGMENT_LENGTH;
+    const index = Math.floor(segmentPosition) % ROAD_SEGMENTS;
+    const nextIndex = (index + 1) % ROAD_SEGMENTS;
+    const segment = state.road[index];
+    const nextSegment = state.road[nextIndex];
+
+    if (!segment || !nextSegment) {
+        return 0;
+    }
+
+    const progress = segmentPosition - Math.floor(segmentPosition);
+    return segment.x + (nextSegment.x - segment.x) * progress;
+}
+
+
+
+export function addHill(start, length, height) {
+
+    for (let i = 0; i < length; i++) {
+
+        const segment = state.road[start + i];
+
+        if (!segment) {
+            break;
+        }
+
+        const progress = i / (length - 1);
+
+        segment.y += height * Math.sin(progress * Math.PI);
+    }
 }
