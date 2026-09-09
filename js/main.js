@@ -6,18 +6,26 @@ import {
 
 import {
     createRoad,
+    updateRoad,
     drawRoad,
-    updateRoad
+    drawRoadShoulders,
+    drawLaneMarkings,
+    addCurve
 } from './background/road.js';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
+
 
 
 createRoad();
 
-state.speed = 300;
+state.speed = 3000;
+
+
 
 function update(deltaTime) {
     updateRoad(deltaTime);
@@ -27,8 +35,10 @@ function update(deltaTime) {
 function draw() {
     ctx.fillStyle = '#87CEEB';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
+    drawRoadShoulders(ctx);
     drawRoad(ctx);
+    drawLaneMarkings(ctx);
+
 }
 let lastTime = performance.now();
 function gameLoop(currentTime) {
