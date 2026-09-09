@@ -4,6 +4,7 @@ import {
     CANVAS_HEIGHT
 } from './variables/variable.js';
 import { drawGrass } from './background/grass.js';
+import { inputState, setupInputs } from './inputs/inputs.js';
 
 import {
     createRoad,
@@ -11,8 +12,15 @@ import {
     drawRoad,
     drawRoadShoulders,
     drawLaneMarkings,
-    addCurve
+    addHill
+
 } from './background/road.js';
+
+import {
+    buildTrack
+} from './background/track.js';
+
+
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -22,7 +30,9 @@ canvas.height = CANVAS_HEIGHT;
 
 
 
-createRoad();
+
+buildTrack();
+setupInputs();
 
 state.speed = 3000;
 
@@ -30,7 +40,7 @@ state.speed = 3000;
 
 function update(deltaTime) {
     updateRoad(deltaTime);
-
+    
 }
 
 function draw() {
