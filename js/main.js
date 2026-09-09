@@ -3,6 +3,7 @@ import {
     CANVAS_WIDTH,
     CANVAS_HEIGHT
 } from './variables/variable.js';
+import { drawGrass } from './background/grass.js';
 
 import {
     createRoad,
@@ -35,6 +36,7 @@ function update(deltaTime) {
 function draw() {
     ctx.fillStyle = '#87CEEB';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    drawGrass(ctx);
     drawRoadShoulders(ctx);
     drawRoad(ctx);
     drawLaneMarkings(ctx);
