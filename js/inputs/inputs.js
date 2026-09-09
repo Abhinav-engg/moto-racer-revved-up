@@ -4,7 +4,8 @@ export const inputState = {
     left: false,
     right: false,
     nitro: false,
-}
+    wheelie: false
+};
 
 export function setupInputs(){
 
