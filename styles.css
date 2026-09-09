@@ -12,5 +12,6 @@ canvas{
     display: block;
     width: 800px;
     height: 600px;
-    
+    aspect-ratio: 4 / 3;
+
 }

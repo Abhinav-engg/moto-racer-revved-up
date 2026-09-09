@@ -7,7 +7,8 @@ import {
     SEGMENT_LENGTH,
     ROAD_SEGMENTS,
     CAMERA_HEIGHT,
-    CAMERA_DEPTH
+    CAMERA_DEPTH,
+    DRAW_DISTANCE
 }from '../variables/variable.js';
 
 
@@ -27,15 +28,23 @@ export function createRoad() {
     }
 
     state.tracklength = ROAD_SEGMENTS *SEGMENT_LENGTH;
+
+    addCurve(20, 40, 3000);
+    addCurve(60, 40, -3000);
+       
 }
 
 
 export function projectSegment(segment) {
 
-    const relativeZ = segment.z - state.cameraZ;
+    let relativeZ = segment.z - state.cameraZ;
 
-    if (relativeZ <= 0) {
-        return null;
+    if (relativeZ < 0) {
+        relativeZ += state.tracklength;
+    }
+
+    if (relativeZ < SEGMENT_LENGTH * 0.5) {
+        relativeZ = SEGMENT_LENGTH * 0.5;
     }
 
     const scale = CAMERA_DEPTH / relativeZ;
@@ -55,21 +64,31 @@ export function projectSegment(segment) {
         scale
     };
 }
-
-
 export function drawRoad(ctx) {
 
-    for (let i = state.road.length-2; i>=0; i--) {
+    const baseIndex = Math.floor(state.cameraZ / SEGMENT_LENGTH);
 
-        const current = projectSegment(state.road[i]);
-        const next = projectSegment(state.road[i+1]);
+    for (let i = DRAW_DISTANCE; i >= 0; i--) {
 
-        if (!current || !next) {
+        const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
+        const nextIndex =(baseIndex+i+1)%ROAD_SEGMENTS;
+
+        if (nextIndex < currentIndex) {
+            continue;
+        }
+
+        const current =projectSegment(state.road[currentIndex]);
+        const next = projectSegment(state.road[nextIndex]);
+
+        if (!current||!next) {
+            continue;
+        }
+
+        if (current.width < 20) {
             continue;
         }
 
         ctx.beginPath();
-
         ctx.moveTo(
             current.x - current.width / 2,
             current.y
@@ -87,10 +106,167 @@ export function drawRoad(ctx) {
             next.y
         );
         ctx.closePath();
-        ctx.fillStyle = i % 2 === 0
-            ? 'lightgray'
-            : 'darkgray';
+        ctx.fillStyle = 'gray';
 
         ctx.fill();
     }
+}
+
+
+
+export function updateRoad(deltaTime) {
+    state.cameraZ += state.speed * deltaTime;
+    if (state.cameraZ >= state.tracklength) {
+        state.cameraZ %= state.tracklength;
+    }
+
+    state.cameraX = getRoadX(state.cameraZ);
+}
+
+export function drawRoadShoulders(ctx) {
+
+    const baseIndex = Math.floor(state.cameraZ / SEGMENT_LENGTH);
+
+    for (let i = DRAW_DISTANCE; i >= 0; i--) {
+
+        const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
+        const nextIndex = (baseIndex + i + 1) % ROAD_SEGMENTS;
+        if (nextIndex < currentIndex) {
+            continue;
+        }
+
+        const current = projectSegment(state.road[currentIndex]);
+        const next = projectSegment(state.road[nextIndex]);
+
+        if (!current || !next) {
+            continue;
+        }
+
+        if (current.width < 20) {
+            continue;
+        }
+
+        const currentShoulderWidth = current.width * 1.15;
+        const nextShoulderWidth = next.width * 1.15;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            current.x - currentShoulderWidth / 2,
+            current.y
+        );
+
+        ctx.lineTo(
+            current.x + currentShoulderWidth / 2,
+            current.y
+        );
+
+        ctx.lineTo(
+            next.x + nextShoulderWidth / 2,
+            next.y + 1
+        );
+
+        ctx.lineTo(
+            next.x - nextShoulderWidth / 2,
+            next.y + 1
+        );
+
+        ctx.closePath();
+
+        ctx.fillStyle = '#777';
+        ctx.fill();
+    }
+}
+
+
+export function drawLaneMarkings(ctx) {
+
+    const baseIndex = Math.floor(state.cameraZ / SEGMENT_LENGTH);
+
+    for (let i = DRAW_DISTANCE; i >= 0; i--) {
+
+        const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
+        const nextIndex = (baseIndex + i + 1) % ROAD_SEGMENTS;
+        if (nextIndex < currentIndex) {
+            continue;
+        }
+
+        const current = projectSegment(state.road[currentIndex]);
+        const next = projectSegment(state.road[nextIndex]);
+
+        if (!current || !next) {
+            continue;
+        }
+
+        if (current.width < 20) {
+            continue;
+        }
+
+        const currentLaneWidth = current.width / 3;
+        const nextLaneWidth = next.width / 3;
+        const currentLineWidth = Math.max(1, current.width * 0.01);
+        const nextLineWidth = Math.max(1, next.width * 0.01);
+        if (currentIndex % 6 > 2) {continue;}
+        ctx.beginPath();
+
+        ctx.moveTo(
+            current.x - current.width / 2 + currentLaneWidth,
+            current.y
+        );
+        ctx.lineTo(
+            next.x - next.width / 2 + nextLaneWidth,
+            next.y
+        );
+        ctx.lineWidth = currentLineWidth;
+        ctx.strokeStyle = '#fff';
+        ctx.stroke();
+        ctx.beginPath();
+
+        ctx.moveTo(
+            current.x - current.width / 2 + currentLaneWidth * 2,
+            current.y
+        );
+
+        ctx.lineTo(
+            next.x - next.width / 2 + nextLaneWidth * 2,
+            next.y
+        );
+
+        ctx.lineWidth = currentLineWidth;
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
+    }
+}
+
+export function addCurve(start,length,curve){
+    for (let i = 0; i < length; i++) {
+
+        const segment = state.road[start + i];
+
+        if (!segment) {
+            break;
+        }
+
+        const progress = i / (length - 1);
+
+        segment.x += curve * (1 - Math.cos(progress * Math.PI)) / 2;
+
+
+    }
+    for (let i = start + length; i < state.road.length; i++) {
+        state.road[i].x += curve;
+    }
+
+}
+
+export function getRoadX(z) {
+
+    const index = Math.floor(z / SEGMENT_LENGTH) % ROAD_SEGMENTS;
+    const segment = state.road[index];
+
+    if (!segment) {
+        return 0;
+    }
+
+    return segment.x;
 }
