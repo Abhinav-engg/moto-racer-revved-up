@@ -13,6 +13,7 @@ import {
     drawLaneMarkings,
     addCurve
 } from './background/road.js';
+import { drawPlayer } from './play/player.js';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -40,6 +41,7 @@ function draw() {
     drawRoadShoulders(ctx);
     drawRoad(ctx);
     drawLaneMarkings(ctx);
+    drawPlayer(ctx);
 
 }
 let lastTime = performance.now();
