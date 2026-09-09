@@ -41,7 +41,6 @@ function draw() {
     drawRoad(ctx);
     drawLaneMarkings(ctx);
     drawPlayer(ctx);
-
 }
 let lastTime = performance.now();
 function gameLoop(currentTime) {
