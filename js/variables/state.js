@@ -6,5 +6,6 @@ export const state = {
 	playerZ: 0,
 	playerX: 0,
 	speed: 0,
-	lap: 0
+	lap: 0,
+	nitro: 100
 };

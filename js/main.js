@@ -14,6 +14,7 @@ import {
     addHill
 
 } from './background/road.js';
+
 import { drawPlayer, updatePlayer } from './play/player.js';
 
 import {
@@ -30,6 +31,7 @@ canvas.height = CANVAS_HEIGHT;
 
 const timerValue = document.getElementById('timer');
 const lapValue = document.getElementById('lap');
+const nitroFill = document.getElementById('nitro-fill');
 let timeLeft = 300;
 
 function updateTimer(deltaTime) {
@@ -43,7 +45,13 @@ function updateTimer(deltaTime) {
 
 function updateLap() {
     if (lapValue) {
-        lapValue.textContent = `${String(state.lap).padStart(2, '0')}/03`;
+        lapValue.textContent = `${String(state.lap)}/03`;
+    }
+}
+
+function updateNitro() {
+    if (nitroFill) {
+        nitroFill.style.width = `${Math.min(100, state.nitro)}%`;
     }
 }
 
@@ -57,6 +65,7 @@ function update(deltaTime) {
     updatePlayer(deltaTime);
     updateTimer(deltaTime);
     updateLap();
+    updateNitro();
 }
 
 function draw() {
