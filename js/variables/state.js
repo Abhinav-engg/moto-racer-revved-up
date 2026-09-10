@@ -8,5 +8,6 @@ export const state = {
 	speed: 0,
 	lap: 0,
 	nitro: 100,
-	lives: 3
+	lives: 3,
+	coins: 0
 };
