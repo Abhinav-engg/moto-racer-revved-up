@@ -25,7 +25,7 @@ import {
 } from './background/track.js';
 import { drawScenery, buildForest } from './background/scenery.js';
 import { drawSky } from './background/sky.js';
-import './menu.js';
+import { showGameOver } from './menu.js';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -37,9 +37,12 @@ const timerValue = document.getElementById('timer');
 const lapValue = document.getElementById('lap');
 const nitroFill = document.getElementById('nitro-fill');
 const coinsValue = document.getElementById('coins');
+const raceCompleteModal = document.getElementById('race-complete');
+const finalCoins = document.getElementById('final-coins');
+const finalLives = document.getElementById('final-lives');
+const finalScore = document.getElementById('final-score');
+const restartBtn = document.getElementById('restart-btn');
 
-
-let gameOver = false;
 let timeLeft = 300;
 let gameOver = false;
 
@@ -190,17 +193,40 @@ function updateSpeed(deltaTime) {
     state.speed = Math.max(0, Math.min(currentMax, state.speed));
 }
 
-import { showGameOver } from './menu.js';
+function checkGameEnd() {
+    if (isRaceComplete(state.lap) && !gameOver) {
+        gameOver = true;
+        if (!bikeSound.paused) {
+            bikeSound.pause();
+            bikeSound.currentTime = 0;
+        }
+        if (!nitroSound.paused) {
+            nitroSound.pause();
+            nitroSound.currentTime = 0;
+        }
+        if (finalCoins) {
+            finalCoins.textContent = String(state.coins);
+        }
+        if (finalLives) {
+            finalLives.textContent = String(state.lives);
+        }
+        if (finalScore) {
+            finalScore.textContent = String(calculateScore(state.coins, state.lives));
+        }
+        if (raceCompleteModal) {
+            raceCompleteModal.classList.remove('hidden');
+        }
+    }
+}
 
 function update(deltaTime) {
-
     if (gameOver) {
         return;
     }
 
     updateSpeed(deltaTime);
 
-     updateRoad(deltaTime);
+    updateRoad(deltaTime);
     updatePlayer(deltaTime);
     checkCollision(deltaTime);
 
@@ -209,8 +235,16 @@ function update(deltaTime) {
     updateNitro();
     updateLives();
 
-    if (state.lives <= 0 || state.lap >= 3) {
+    if (state.lives <= 0) {
         gameOver = true;
+        if (!bikeSound.paused) {
+            bikeSound.pause();
+            bikeSound.currentTime = 0;
+        }
+        if (!nitroSound.paused) {
+            nitroSound.pause();
+            nitroSound.currentTime = 0;
+        }
         showGameOver();
     }
     updateCoins();
