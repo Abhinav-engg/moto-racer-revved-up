@@ -91,26 +91,22 @@ export function drawOpponents(ctx) {
 
         const screenX = projected.x + opp.xOffset * (projected.width / 2);
         const screenY = projected.y;
-        const size = 380 * projected.scale * (CANVAS_WIDTH / 2);
+        const height = 380 * projected.scale * (CANVAS_WIDTH / 2);
+        const aspectRatio = sprite.naturalWidth / sprite.naturalHeight;
+        const width = height * aspectRatio;
 
-        if (size >= 8) {
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.rect(screenX - size / 2, screenY - size, size, size);
-            ctx.stroke();
+        if (height >= 8) {
             ctx.drawImage(
                 sprite,
                 0,
                 0,
                 sprite.naturalWidth,
                 sprite.naturalHeight,
-                screenX - size / 2,
-                screenY - size,
-                size,
-                size
+                screenX - width / 2,
+                screenY - height,
+                width,
+                height
             );
-            ctx.strokeStyle = 'black';
         }
     }
 }
@@ -138,17 +134,19 @@ export function checkOpponentsCollision() {
             continue;
         }
 
+        const sprite = opponentSprites[opp.spriteIndex % opponentSprites.length];
         const screenX = projected.x + opp.xOffset * (projected.width / 2);
         const screenY = projected.y;
-        const size = 380 * projected.scale * (CANVAS_WIDTH / 2);
+        const height = 380 * projected.scale * (CANVAS_WIDTH / 2);
+        const aspectRatio = (sprite.complete && sprite.naturalHeight > 0) ? (sprite.naturalWidth / sprite.naturalHeight) : 1;
+        const width = height * aspectRatio;
 
-        const oppLeft = screenX - size / 3;
-        const oppRight = screenX + size / 3;
+        const oppLeft = screenX - width / 3;
+        const oppRight = screenX + width / 3;
         const oppBottom = screenY;
 
-        if (bikeRight > oppLeft && bikeLeft < oppRight && bikeTop < oppBottom) {
+        if (bikeRight > oppLeft && bikeLeft < oppRight && bikeTop < oppBottom && bikeBottom > screenY - height) {
             if (cooldown <= 0 && state.lives > 0) {
-                state.lives--;
                 state.speed = Math.max(0, state.speed * 0.5);
                 cooldown = 1.5;
             }
