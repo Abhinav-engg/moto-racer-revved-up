@@ -1,4 +1,5 @@
 export const state = {
+	track: 'classic',
 	road: [],
 	tracklength: 0,
 	cameraX: 0,

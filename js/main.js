@@ -84,7 +84,11 @@ function updateSpeed(deltaTime) {
 
     if (inputState.nitro && state.nitro > 0) {
         currentAccel = ACCEL * 2;
-        state.nitro = Math.max(0, state.nitro - 30 * deltaTime);
+        if (state.track == 'classic') {
+            state.nitro = Math.max(0, state.nitro - 30 * deltaTime);
+        } else {
+            state.nitro = Math.max(0,state.nitro - 5 * deltaTime);
+        }
     }
 
     if (inputState.accelerate || (inputState.nitro && state.nitro > 0)) {
@@ -153,12 +157,14 @@ function gameLoop(currentTime) {
 
 let gameStarted = false;
 
-window.addEventListener('game:start', () => {
+window.addEventListener('game:start', (event) => {
     if (gameStarted) {
         return;
     }
 
     gameStarted = true;
+    state.track = event.detail.track === 'snowy' ? 'snowy' : 'classic';
+
     buildTrack();
     buildForest();
     setupInputs();

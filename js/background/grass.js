@@ -35,7 +35,7 @@ export function drawGrass(ctx) {
     ctx.lineTo(nextLeft, next.y);
     ctx.lineTo(0, next.y);
     ctx.closePath();
-    ctx.fillStyle = "green";
+    ctx.fillStyle = state.track === "snowy" ? "white" : "green";
     ctx.fill();
 
     ctx.beginPath();
@@ -44,7 +44,7 @@ export function drawGrass(ctx) {
     ctx.lineTo(CANVAS_WIDTH, next.y);
     ctx.lineTo(nextRight, next.y);
     ctx.closePath();
-    ctx.fillStyle = "green";
+    ctx.fillStyle = state.track === "snowy" ? "white" : "green";
     ctx.fill();
   }
 }

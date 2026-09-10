@@ -1,4 +1,3 @@
-// sky.js
 import { state } from '../variables/state.js';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../variables/variable.js';
 
@@ -19,7 +18,7 @@ const HORIZON_Y = CANVAS_HEIGHT /2;
 
 function drawTiledLayer(ctx, img, parallax, bottomY, height) {
 
-    if (!img.complete || img.naturalWidth === 0) {
+    if (!img.complete || img.naturalWidth == 0) {
         return;
     }
 

@@ -7,6 +7,9 @@ const scenery = [];
 const treeImg = new Image();
 treeImg.src = 'assets/scenery/tree.png';
 
+const treeSnowImg = new Image();
+treeSnowImg.src = 'assets/scenery/snowyTree.png';
+
 const FOREST_LENGTH = 120000;
 
 const MIN_GAP = 250;
@@ -29,7 +32,7 @@ function addTree(z, side) {
 
         offset: random(MIN_GAP, MAX_GAP),
 
-        image: treeImg,
+        image: state.track === "snowy" ? treeSnowImg : treeImg,
 
         width: random(600, 1100),
         height: random(1000, 1800)
