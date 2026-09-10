@@ -12,7 +12,7 @@ mountainsImg.src = 'assets/scenery/3.png';
 
 const STARS_PARALLAX = 0.002;
 const AURORA_PARALLAX = 0.008;
-const MOUNTAINS_PARALLAX = 0.01; 
+const MOUNTAINS_PARALLAX = 0.01;
 
 const HORIZON_Y = CANVAS_HEIGHT /2;
 

@@ -8,6 +8,7 @@
     />
     <title>Moto Racer-Revved Up</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="shortcut icon" href="assets/favicon.png" type="image/x-icon">
   </head>
   <body>
     <div id="start-screen" class="screen">
@@ -67,10 +68,28 @@
     W to Accelerate | S to Brake | A/D to Steer | SPACE for Nitro
 </div>
 
+        <div id="race-complete" class="race-complete hidden">
+          <div class="modal-card">
+            <h2 class="modal-title">RACE COMPLETED</h2>
+            <div class="stats-container">
+              <div class="stat-row">
+                <span class="stat-label">Coins Collected</span>
+                <span class="stat-value" id="final-coins">0</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Lives Remaining</span>
+                <span class="stat-value" id="final-lives">3</span>
+              </div>
+              <div class="stat-row score-row">
+                <span class="stat-label">SCORE</span>
+                <span class="stat-value score-val" id="final-score">0</span>
+              </div>
+            </div>
+            <button type="button" class="restart-btn" id="restart-btn">PLAY AGAIN</button>
+          </div>
+        </div>
 
-    
-
-      <canvas id="canvas"></canvas>
+        <canvas id="canvas"></canvas>
       </div>
     </div>
   </div>
