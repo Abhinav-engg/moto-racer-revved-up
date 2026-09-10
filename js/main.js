@@ -16,6 +16,7 @@ import {
 } from './background/road.js';
 
 import { drawPlayer, updatePlayer } from './play/player.js';
+import { checkCollision } from './play/collision.js';
 
 import {
     buildTrack
@@ -56,7 +57,14 @@ function updateNitro() {
 }
 
 function updateLives() {
-    const hearts = document.querySelectorAll('#lives');
+    const hearts = document.querySelectorAll('#lives .heart');
+    hearts.forEach((heart, index) => {
+        if (index < state.lives) {
+            heart.classList.remove('lost');
+        } else {
+            heart.classList.add('lost');
+        }
+    });
 }
 
 buildTrack();
@@ -67,6 +75,7 @@ state.speed = 3000;
 function update(deltaTime) {
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
+    checkCollision(deltaTime);
     updateTimer(deltaTime);
     updateLap();
     updateNitro();

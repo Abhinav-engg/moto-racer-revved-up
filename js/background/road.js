@@ -176,6 +176,33 @@ export function drawRoadShoulders(ctx) {
     }
 }
 
+export function getCurrentShoulder() {
+    if (!state.road || state.road.length === 0) return null;
+    const baseIndex = Math.floor(state.cameraZ / SEGMENT_LENGTH);
+    let target = null;
+    for (let i = 1; i <= DRAW_DISTANCE; i++) {
+        const segIndex = (baseIndex + i) % ROAD_SEGMENTS;
+        const projected = projectSegment(state.road[segIndex]);
+        if (projected && projected.y <= CANVAS_HEIGHT) {
+            target = projected;
+            if (projected.y <= CANVAS_HEIGHT - 60) {
+                break;
+            }
+        }
+    }
+
+    if (!target) return null;
+
+    const currentShoulderWidth = target.width * 1.15;
+    return {
+        x: target.x,
+        y: target.y,
+        width: currentShoulderWidth,
+        leftX: target.x - currentShoulderWidth / 2,
+        rightX: target.x + currentShoulderWidth / 2
+    };
+}
+
 
 export function drawLaneMarkings(ctx) {
 
