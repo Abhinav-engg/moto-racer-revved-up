@@ -8,7 +8,6 @@ const snowyButton = document.getElementById('snowy-button');
 
 
 startButton.addEventListener('click', function () {
-
     startScreen.classList.add('hidden');
     trackScreen.classList.remove('hidden');
 
