@@ -1,91 +1,133 @@
 import { state } from '../variables/state.js';
-import { projectSegment } from './road.js';
+import { projectSegment, getRoadX } from './road.js';
+import { CANVAS_WIDTH, CANVAS_HEIGHT, SEGMENT_LENGTH, DRAW_DISTANCE } from '../variables/variable.js';
 
 const scenery = [];
 
-export function addScenery(segmentIndex, side, offset, image, width, height) {
+const treeImg = new Image();
+treeImg.src = 'assets/scenery/tree.png';
+
+const FOREST_LENGTH = 100000;
+
+const MIN_GAP = 250;
+const MAX_GAP = 3000;
+
+const MIN_SPACING = 150;
+const MAX_SPACING = 300;
+
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+
+function addTree(z, side) {
 
     scenery.push({
-        segmentIndex,
-        side,
-        offset,
-        image,
-        width,
-        height
+        z: z,
+        side: side,
+
+        offset: random(MIN_GAP, MAX_GAP),
+
+        image: treeImg,
+
+        width: random(600, 1100),
+        height: random(1000, 1800)
     });
 }
 
+
+export function buildForest() {
+
+    scenery.length = 0;
+
+    let z = 200;
+
+    while (z < FOREST_LENGTH) {
+
+        addTree(z, -1);
+        addTree(z + random(20, 100), -1);
+
+        if (Math.random() < 0.9) {
+            addTree(z, 1);
+        }
+        if (Math.random() < 0.9) {
+            addTree(z + random(20, 100), 1);
+        }
+
+        z += random(MIN_SPACING, MAX_SPACING);
+    }
+}
+
+
 export function drawScenery(ctx) {
 
-    for (const object of scenery) {
+    if (!treeImg.complete) {
+        return;
+    }
 
-        const segment = state.road[object.segmentIndex];
+    const visible = [];
 
-        if (!segment) {
+    for (const tree of scenery) {
+
+        let relativeZ = tree.z - state.cameraZ;
+
+        if (relativeZ < 0) {
+            relativeZ += state.tracklength;
+        }
+
+        if (relativeZ <= 0) {
             continue;
         }
 
-        const projected = projectSegment(segment);
+        if (relativeZ > DRAW_DISTANCE * SEGMENT_LENGTH) {
+            continue;
+        }
+
+        visible.push({ tree, relativeZ });
+    }
+
+    visible.sort((a, b) => b.relativeZ - a.relativeZ);
+
+    for (const { tree } of visible) {
+
+        const roadX = getRoadX(tree.z);
+
+        const pseudoSegment = {
+            z: tree.z,
+            x: roadX,
+            y: 0
+        };
+
+        const projected = projectSegment(pseudoSegment);
 
         if (!projected) {
             continue;
         }
 
-        const x = projected.x
-            + object.side * (projected.width / 2 + object.offset * projected.scale);
+        const x =
+            projected.x +
+            tree.side *
+            (
+                projected.width / 2 +
+                tree.offset * projected.scale * (CANVAS_WIDTH / 2)
+            );
 
         const y = projected.y;
 
-        const width = object.width * projected.scale;
-        const height = object.height * projected.scale;
+        const width = tree.width * projected.scale * (CANVAS_WIDTH / 2);
+const height = tree.height * projected.scale * (CANVAS_HEIGHT / 2);
 
-        ctx.drawImage(
-            object.image,
-            x - width / 2,
-            y - height,
-            width,
-            height
-        );
-    }
+if (width < 20 || height < 20) {
+    continue;
 }
 
-function sideOffset(object, projected) {
-
-    return object.side * (
-        projected.width / 2 +
-        object.offset * projected.scale
-    );
-}
-
-export function buildScenery() {
-    if (typeof treeImg === 'undefined' || typeof palmImg === 'undefined' || typeof rockImg === 'undefined') {
-        return;
+ctx.drawImage(
+    tree.image,
+    x - width / 2,
+    y - height,
+    width,
+    height
+);
     }
-
-    addScenery(20, -1, 500, treeImg, 200, 300);
-addScenery(35, 1, 600, treeImg, 200, 300);
-
-addScenery(60, -1, 450, palmImg, 180, 320);
-addScenery(80, 1, 500, rockImg, 180, 200);
-
-addScenery(110, -1, 550, treeImg, 200, 300);
-addScenery(130, 1, 500, treeImg, 200, 300);
-
-addScenery(160, -1, 600, rockImg, 180, 200);
-addScenery(180, 1, 500, palmImg, 180, 320);
-
-addScenery(220, -1, 550, treeImg, 200, 300);
-addScenery(240, 1, 600, treeImg, 200, 300);
-
-addScenery(280, -1, 500, rockImg, 180, 200);
-addScenery(300, 1, 550, treeImg, 200, 300);
-
-addScenery(340, -1, 600, palmImg, 180, 320);
-addScenery(360, 1, 500, treeImg, 200, 300);
-
-addScenery(400, -1, 550, rockImg, 180, 200);
-addScenery(430, 1, 600, treeImg, 200, 300);
-
-addScenery(460, -1, 500, palmImg, 180, 320);
-addScenery(480, 1, 550, treeImg, 200, 300);
 }

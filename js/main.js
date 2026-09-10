@@ -19,6 +19,8 @@ import { drawPlayer, updatePlayer } from './play/player.js';
 import {
     buildTrack
 } from './background/track.js';
+import { drawScenery, buildForest } from './background/scenery.js';
+import { drawSky } from './background/sky.js';
 
 
 
@@ -41,6 +43,7 @@ function updateTimer(deltaTime) {
 }
 
 buildTrack();
+buildForest();
 setupInputs();
 
 state.speed = 3000;
@@ -52,9 +55,10 @@ function update(deltaTime) {
 }
 
 function draw() {
-    ctx.fillStyle = '#87CEEB';
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    drawSky(ctx);
     drawGrass(ctx);
+    drawScenery(ctx);
     drawRoadShoulders(ctx);
     drawRoad(ctx);
     drawLaneMarkings(ctx);

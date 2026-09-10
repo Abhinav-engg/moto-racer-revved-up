@@ -15,10 +15,6 @@ export function buildTrack() {
 
     addCurve(120, 30, -2050);
 
-
-    // Sector 2
-    // 150 - 320
-
     addCurve(150, 35, -3500);
     addHill(150, 35, -260);
 
@@ -33,10 +29,6 @@ export function buildTrack() {
 
     addCurve(275, 45, -300);
     addHill(275, 45, 20);
-
-
-    // Sector 3
-    // 320 - 500
 
     addCurve(320, 45, 2500);
     addHill(320, 45, 400);
@@ -54,7 +46,7 @@ export function buildTrack() {
 
     closeRoad();
 
-    //  
+
 
     
 

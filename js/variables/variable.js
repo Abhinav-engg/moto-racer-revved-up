@@ -8,6 +8,6 @@ export const MAX_SPEED = 300;
 export const ACCEL = 350;
 export const BRAKE = 600;
 export const DECEL = 200;
-export const STEER_SPEED = 2.5;
+export const STEER_SPEED = 1.5;
 export const ROAD_SEGMENTS = 600;
 export const DRAW_DISTANCE = 33;
