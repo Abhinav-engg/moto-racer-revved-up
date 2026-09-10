@@ -10,34 +10,62 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="game">
-      <h1 class="title">Moto Racer Revved Up</h1>
-      <div class="arena">
-        <div class="hud">
-          <div class="card">
-            <span class="label">LAP</span>
-            <span class="value" id="lap">00/03</span>
-          </div>
-          <div class="card">
-            <span class="label">TIME</span>
-            <span class="value" id="timer">05:00</span>
-          </div>
-        </div>
+    <div id="start-screen" class="screen">
+      <h1>MOTO RACER</h1>
+      <button id="start-button">START GAME</button>
+    </div>
 
-        <div class="nitro-bar">
-          <div class="nitro-fill" id="nitro-fill"></div>
-        </div>
+    <div id="track-screen" class="screen hidden">
+      <h1>PICK YOUR TRACK</h1>
+      <div class="track-buttons">
+        <button class="track-button" id="classic-button">
+          <img src="assets/buttons/classic.png" alt="Classic Track">
+        </button>
+        <button class="track-button" id="snowy-button">
+          <img src="assets/buttons/snowybutton.png" alt="Snowy Track">
+        </button>
+      </div>
+    </div>
 
-        <div class="lives" id="lives">
-          <span class="heart">❤️</span>
-          <span class="heart">❤️</span>
-          <span class="heart">❤️</span>
+    <div id="game-over-screen" class="screen hidden">
+
+    <h1>GAME OVER</h1>
+
+    <button id="restart-button">RESTART</button>
+
+</div>
+
+    <div class="game hidden">
+    <h1 class="title">Moto Racer Revved Up</h1>
+    <div class="arena">
+      <div class="hud">
+        <div class="card">
+          <span class="label">LAP</span>
+          <span class="value" id="lap">00/03</span>
         </div>
+        <div class="card">
+          <span class="label">TIME</span>
+          <span class="value" id="timer">05:00</span>
+        </div>
+      </div>
+
+      <div class="nitro-bar">
+        <div class="nitro-fill" id="nitro-fill"></div>
+      </div>
+
+      <div class="lives" id="lives">
+        <span class="heart">❤️</span>
+        <span class="heart">❤️</span>
+        <span class="heart">❤️</span>
+      </div>
 
         <div class="coins">
           <span class="coin-icon">🪙</span>
           <span class="value" id="coins">0</span>
         </div>
+<div class="instruction-text">
+    W to Accelerate | S to Brake | A/D to Steer | SPACE for Nitro
+</div>
 
         <div id="race-complete" class="race-complete hidden">
           <div class="modal-card">
@@ -63,6 +91,8 @@
         <canvas id="canvas"></canvas>
       </div>
     </div>
-    <script type="module" src="js/main.js"></script>
-  </body>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
 </html>

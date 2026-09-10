@@ -25,6 +25,7 @@ import {
 } from './background/track.js';
 import { drawScenery, buildForest } from './background/scenery.js';
 import { drawSky } from './background/sky.js';
+import { showGameOver } from './menu.js';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -218,22 +219,34 @@ function checkGameEnd() {
     }
 }
 
-buildTrack();
-buildForest();
-setupInputs();
-
 function update(deltaTime) {
     if (gameOver) {
         return;
     }
+
     updateSpeed(deltaTime);
+
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
     checkCollision(deltaTime);
+
     updateTimer(deltaTime);
     updateLap();
     updateNitro();
     updateLives();
+
+    if (state.lives <= 0) {
+        gameOver = true;
+        if (!bikeSound.paused) {
+            bikeSound.pause();
+            bikeSound.currentTime = 0;
+        }
+        if (!nitroSound.paused) {
+            nitroSound.pause();
+            nitroSound.currentTime = 0;
+        }
+        showGameOver();
+    }
     updateCoins();
     checkGameEnd();
 }
@@ -260,4 +273,18 @@ function gameLoop(currentTime) {
     requestAnimationFrame(gameLoop);
 }
 
-requestAnimationFrame(gameLoop);
+let gameStarted = false;
+
+window.addEventListener('game:start', () => {
+    if (gameStarted) {
+        return;
+    }
+
+    gameStarted = true;
+    buildTrack();
+    buildForest();
+    setupInputs();
+    lastTime = performance.now();
+    requestAnimationFrame(gameLoop);
+});
+
