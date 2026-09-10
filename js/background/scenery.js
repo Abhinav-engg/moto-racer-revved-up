@@ -7,7 +7,7 @@ const scenery = [];
 const treeImg = new Image();
 treeImg.src = 'assets/scenery/tree.png';
 
-const FOREST_LENGTH = 100000;
+const FOREST_LENGTH = 120000;
 
 const MIN_GAP = 250;
 const MAX_GAP = 3000;

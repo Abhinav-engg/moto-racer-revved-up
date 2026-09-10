@@ -1,7 +1,11 @@
 import { state } from './variables/state.js';
 import {
     CANVAS_WIDTH,
-    CANVAS_HEIGHT
+    CANVAS_HEIGHT,
+    MAX_SPEED,
+    ACCEL,
+    BRAKE,
+    DECEL
 } from './variables/variable.js';
 import { drawGrass } from './background/grass.js';
 import { inputState, setupInputs } from './inputs/inputs.js';
@@ -69,11 +73,27 @@ function updateLives() {
     });
 }
 
+function updateSpeed(deltaTime) {
+    if(inputState.accelerate == true){
+        state.speed += ACCEL * deltaTime;
+    }
+
+    if(inputState.brake == true){
+        state.speed -= BRAKE * deltaTime;
+    }
+
+    if(!inputState.accelerate && !inputState.brake){
+        state.speed -= DECEL * deltaTime;
+    }
+
+    state.speed= Math.max(0,Math.min(MAX_SPEED, state.speed));
+}
+
 buildTrack();
 buildForest();
 setupInputs();
 
-state.speed = 3000;
+
 
 function update(deltaTime) {
     updateRoad(deltaTime);
@@ -83,6 +103,7 @@ function update(deltaTime) {
     updateLap();
     updateNitro();
     updateLives();
+    updateSpeed(deltaTime);
 }
 
 function draw() {
