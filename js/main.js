@@ -58,7 +58,7 @@ function updateLap() {
 
 function updateNitro() {
     if (nitroFill) {
-        nitroFill.style.width = `${Math.min(100, state.nitro)}%`;
+        nitroFill.style.width = `${Math.max(0, Math.min(100, state.nitro))}%`;
     }
 }
 
@@ -80,19 +80,27 @@ function updateCoins() {
 }
 
 function updateSpeed(deltaTime) {
-    if (inputState.accelerate) {
-        state.speed += ACCEL * deltaTime;
+    let currentAccel = ACCEL;
+
+    if (inputState.nitro && state.nitro > 0) {
+        currentAccel = ACCEL * 2;
+        state.nitro = Math.max(0, state.nitro - 30 * deltaTime);
+    }
+
+    if (inputState.accelerate || (inputState.nitro && state.nitro > 0)) {
+        state.speed += currentAccel * deltaTime;
     }
 
     if (inputState.brake) {
         state.speed -= BRAKE * deltaTime;
     }
 
-    if (!inputState.accelerate && !inputState.brake) {
+    if (!inputState.accelerate && !inputState.brake && !(inputState.nitro && state.nitro > 0)) {
         state.speed -= DECEL * deltaTime;
     }
 
-    state.speed = Math.max(0, Math.min(MAX_SPEED, state.speed));
+    const currentMax = (inputState.nitro && state.nitro > 0) ? MAX_SPEED * 1.4 : MAX_SPEED;
+    state.speed = Math.max(0, Math.min(currentMax, state.speed));
 }
 
 import { showGameOver } from './menu.js';
@@ -105,7 +113,7 @@ function update(deltaTime) {
 
     updateSpeed(deltaTime);
 
-    updateRoad(deltaTime);
+     updateRoad(deltaTime);
     updatePlayer(deltaTime);
     checkCollision(deltaTime);
 
@@ -118,6 +126,7 @@ function update(deltaTime) {
         gameOver = true;
         showGameOver();
     }
+    updateCoins();
 }
 
 function draw() {
