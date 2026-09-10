@@ -18,6 +18,7 @@ import {
 
 import { drawPlayer, updatePlayer } from './play/player.js';
 import { checkCollision, drawCoins } from './play/collision.js';
+import { calculateScore, isRaceComplete } from './play/play.js';
 
 import {
     buildTrack
@@ -35,7 +36,14 @@ const timerValue = document.getElementById('timer');
 const lapValue = document.getElementById('lap');
 const nitroFill = document.getElementById('nitro-fill');
 const coinsValue = document.getElementById('coins');
+const raceCompleteModal = document.getElementById('race-complete');
+const finalCoins = document.getElementById('final-coins');
+const finalLives = document.getElementById('final-lives');
+const finalScore = document.getElementById('final-score');
+const restartBtn = document.getElementById('restart-btn');
+
 let timeLeft = 300;
+let gameOver = false;
 
 const bgMusic = new Audio('assets/sfx/backgroundmusic.mp3');
 bgMusic.loop = true;
@@ -43,17 +51,17 @@ bgMusic.volume = 0.4;
 
 const bikeSound = new Audio('assets/sfx/bikeriding.mp3');
 bikeSound.loop = true;
-bikeSound.volume = 0.6;
+bikeSound.volume = 0.5;
 
 const nitroSound = new Audio('assets/sfx/20-sec nitro.mp3');
 nitroSound.loop = true;
-nitroSound.volume = 0.8;
+nitroSound.volume = 0.6;
 
 const lapSound = new Audio('assets/sfx/lap-complete.mp3');
 lapSound.volume = 0.8;
 
 const crashSound = new Audio('assets/sfx/small_crash.mp3');
-crashSound.volume = 0.6;
+crashSound.volume = 0.8;
 
 let lastLap = state.lap;
 let lastLives = state.lives;
@@ -69,6 +77,29 @@ window.addEventListener('click', () => {
         bgMusic.play().catch(() => {});
     }
 }, { once: true });
+
+if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+        state.lap = 0;
+        state.coins = 0;
+        state.lives = 3;
+        state.speed = 0;
+        state.nitro = 100;
+        state.cameraZ = 0;
+        state.playerX = 0;
+        lastLap = 0;
+        lastLives = 3;
+        timeLeft = 300;
+        gameOver = false;
+        if (raceCompleteModal) {
+            raceCompleteModal.classList.add('hidden');
+        }
+        updateLives();
+        updateCoins();
+        updateLap();
+        updateNitro();
+    });
+}
 
 function updateTimer(deltaTime) {
     timeLeft = Math.max(0, timeLeft - deltaTime);
@@ -86,7 +117,7 @@ function updateLap() {
         lastLap = state.lap;
     }
     if (lapValue) {
-        lapValue.textContent = `${String(state.lap)}/03`;
+        lapValue.textContent = `${String(Math.min(3, state.lap))}/03`;
     }
 }
 
@@ -161,11 +192,40 @@ function updateSpeed(deltaTime) {
     state.speed = Math.max(0, Math.min(currentMax, state.speed));
 }
 
+function checkGameEnd() {
+    if (isRaceComplete(state.lap) && !gameOver) {
+        gameOver = true;
+        if (!bikeSound.paused) {
+            bikeSound.pause();
+            bikeSound.currentTime = 0;
+        }
+        if (!nitroSound.paused) {
+            nitroSound.pause();
+            nitroSound.currentTime = 0;
+        }
+        if (finalCoins) {
+            finalCoins.textContent = String(state.coins);
+        }
+        if (finalLives) {
+            finalLives.textContent = String(state.lives);
+        }
+        if (finalScore) {
+            finalScore.textContent = String(calculateScore(state.coins, state.lives));
+        }
+        if (raceCompleteModal) {
+            raceCompleteModal.classList.remove('hidden');
+        }
+    }
+}
+
 buildTrack();
 buildForest();
 setupInputs();
 
 function update(deltaTime) {
+    if (gameOver) {
+        return;
+    }
     updateSpeed(deltaTime);
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
@@ -175,6 +235,7 @@ function update(deltaTime) {
     updateNitro();
     updateLives();
     updateCoins();
+    checkGameEnd();
 }
 
 function draw() {
