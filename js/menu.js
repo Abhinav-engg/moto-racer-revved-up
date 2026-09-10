@@ -1,7 +1,8 @@
 const startScreen = document.getElementById('start-screen');
 const trackScreen = document.getElementById('track-screen');
 const gameScreen = document.querySelector('.game');
-
+const gameOverScreen = document.getElementById('game-over-screen');
+const restartButton = document.getElementById('restart-button');
 const startButton = document.getElementById('start-button');
 const classicButton = document.getElementById('classic-button');
 const snowyButton = document.getElementById('snowy-button');
@@ -36,3 +37,14 @@ function startGame(track) {
     window.dispatchEvent(new CustomEvent('game:start', { detail: { track } }));
 
 }
+
+export function showGameOver() {
+
+    gameScreen.classList.add('hidden');
+    gameOverScreen.classList.remove('hidden');
+
+}
+
+restartButton.addEventListener('click', function () {
+    location.reload();
+});

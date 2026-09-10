@@ -218,3 +218,25 @@ canvas {
     font-weight: 700;
     white-space: nowrap;
 }
+
+#game-over-screen h1 {
+    color: 'red';
+    font-size: 60px;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+}
+
+#restart-button {
+    padding: 15px 50px;
+    border: 3px solid 'yellow';
+    border-radius: 10px;
+    background: #222;
+    color: 'yellow';
+    font-size: 22px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+#restart-button:hover {
+    background: 'yellow';
+    color: 'black';
+}

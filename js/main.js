@@ -36,6 +36,9 @@ const timerValue = document.getElementById('timer');
 const lapValue = document.getElementById('lap');
 const nitroFill = document.getElementById('nitro-fill');
 const coinsValue = document.getElementById('coins');
+
+
+let gameOver = false;
 let timeLeft = 300;
 
 function updateTimer(deltaTime) {
@@ -92,16 +95,29 @@ function updateSpeed(deltaTime) {
     state.speed = Math.max(0, Math.min(MAX_SPEED, state.speed));
 }
 
+import { showGameOver } from './menu.js';
+
 function update(deltaTime) {
+
+    if (gameOver) {
+        return;
+    }
+
+    updateSpeed(deltaTime);
+
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
     checkCollision(deltaTime);
+
     updateTimer(deltaTime);
     updateLap();
     updateNitro();
     updateLives();
-    updateCoins();
-    updateSpeed(deltaTime);
+
+    if (state.lives <= 0 || state.lap >= 3) {
+        gameOver = true;
+        showGameOver();
+    }
 }
 
 function draw() {
@@ -140,3 +156,4 @@ window.addEventListener('game:start', () => {
     lastTime = performance.now();
     requestAnimationFrame(gameLoop);
 });
+
