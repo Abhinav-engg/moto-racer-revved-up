@@ -10,25 +10,20 @@ import {
 import { drawGrass } from './background/grass.js';
 import { inputState, setupInputs } from './inputs/inputs.js';
 import {
-    createRoad,
     updateRoad,
     drawRoad,
     drawRoadShoulders,
-    drawLaneMarkings,
-    addHill
-
+    drawLaneMarkings
 } from './background/road.js';
 
 import { drawPlayer, updatePlayer } from './play/player.js';
-import { checkCollision } from './play/collision.js';
+import { checkCollision, drawCoins } from './play/collision.js';
 
 import {
     buildTrack
 } from './background/track.js';
 import { drawScenery, buildForest } from './background/scenery.js';
 import { drawSky } from './background/sky.js';
-
-
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -39,6 +34,7 @@ canvas.height = CANVAS_HEIGHT;
 const timerValue = document.getElementById('timer');
 const lapValue = document.getElementById('lap');
 const nitroFill = document.getElementById('nitro-fill');
+const coinsValue = document.getElementById('coins');
 let timeLeft = 300;
 
 function updateTimer(deltaTime) {
@@ -73,27 +69,31 @@ function updateLives() {
     });
 }
 
+function updateCoins() {
+    if (coinsValue) {
+        coinsValue.textContent = String(state.coins);
+    }
+}
+
 function updateSpeed(deltaTime) {
-    if(inputState.accelerate == true){
+    if (inputState.accelerate) {
         state.speed += ACCEL * deltaTime;
     }
 
-    if(inputState.brake == true){
+    if (inputState.brake) {
         state.speed -= BRAKE * deltaTime;
     }
 
-    if(!inputState.accelerate && !inputState.brake){
+    if (!inputState.accelerate && !inputState.brake) {
         state.speed -= DECEL * deltaTime;
     }
 
-    state.speed= Math.max(0,Math.min(MAX_SPEED, state.speed));
+    state.speed = Math.max(0, Math.min(MAX_SPEED, state.speed));
 }
 
 buildTrack();
 buildForest();
 setupInputs();
-
-
 
 function update(deltaTime) {
     updateRoad(deltaTime);
@@ -103,19 +103,21 @@ function update(deltaTime) {
     updateLap();
     updateNitro();
     updateLives();
+    updateCoins();
     updateSpeed(deltaTime);
 }
 
 function draw() {
-    
     drawSky(ctx);
     drawGrass(ctx);
     drawScenery(ctx);
     drawRoadShoulders(ctx);
     drawRoad(ctx);
     drawLaneMarkings(ctx);
+    drawCoins(ctx);
     drawPlayer(ctx);
 }
+
 let lastTime = performance.now();
 function gameLoop(currentTime) {
     const deltaTime = (currentTime - lastTime) / 1000;
