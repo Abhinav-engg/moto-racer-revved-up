@@ -169,18 +169,19 @@ function updateSpeed(deltaTime) {
         if (nitroSound.paused) {
             nitroSound.play().catch(() => {});
         } 
-
-        }else{
-            if (!nitroSound.paused) {
-            nitroSound.pause();
-            nitroSound.currentTime = 0;
-        }
         currentAccel = ACCEL * 2;
         if (state.track == 'classic') {
             state.nitro = Math.max(0, state.nitro - 30 * deltaTime);
         } else {
             state.nitro = Math.max(0,state.nitro - 5 * deltaTime);
         }
+
+        }else{
+            if (!nitroSound.paused) {
+            nitroSound.pause();
+            nitroSound.currentTime = 0;
+        }
+        
         
       
         
