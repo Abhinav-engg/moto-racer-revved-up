@@ -37,6 +37,39 @@ const nitroFill = document.getElementById('nitro-fill');
 const coinsValue = document.getElementById('coins');
 let timeLeft = 300;
 
+const bgMusic = new Audio('assets/sfx/backgroundmusic.mp3');
+bgMusic.loop = true;
+bgMusic.volume = 0.4;
+
+const bikeSound = new Audio('assets/sfx/bikeriding.mp3');
+bikeSound.loop = true;
+bikeSound.volume = 0.6;
+
+const nitroSound = new Audio('assets/sfx/20-sec nitro.mp3');
+nitroSound.loop = true;
+nitroSound.volume = 0.8;
+
+const lapSound = new Audio('assets/sfx/lap-complete.mp3');
+lapSound.volume = 0.8;
+
+const crashSound = new Audio('assets/sfx/small_crash.mp3');
+crashSound.volume = 0.6;
+
+let lastLap = state.lap;
+let lastLives = state.lives;
+
+window.addEventListener('keydown', () => {
+    if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+    }
+}, { once: true });
+
+window.addEventListener('click', () => {
+    if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+    }
+}, { once: true });
+
 function updateTimer(deltaTime) {
     timeLeft = Math.max(0, timeLeft - deltaTime);
     const minutes = Math.floor(timeLeft / 60);
@@ -47,6 +80,11 @@ function updateTimer(deltaTime) {
 }
 
 function updateLap() {
+    if (state.lap > lastLap) {
+        lapSound.currentTime = 0;
+        lapSound.play().catch(() => {});
+        lastLap = state.lap;
+    }
     if (lapValue) {
         lapValue.textContent = `${String(state.lap)}/03`;
     }
@@ -59,6 +97,11 @@ function updateNitro() {
 }
 
 function updateLives() {
+    if (state.lives < lastLives) {
+        crashSound.currentTime = 0;
+        crashSound.play().catch(() => {});
+        lastLives = state.lives;
+    }
     const hearts = document.querySelectorAll('#lives .heart');
     hearts.forEach((heart, index) => {
         if (index < state.lives) {
@@ -78,9 +121,28 @@ function updateCoins() {
 function updateSpeed(deltaTime) {
     let currentAccel = ACCEL;
 
+    if (inputState.accelerate) {
+        if (bikeSound.paused) {
+            bikeSound.play().catch(() => {});
+        }
+    } else {
+        if (!bikeSound.paused) {
+            bikeSound.pause();
+            bikeSound.currentTime = 0;
+        }
+    }
+
     if (inputState.nitro && state.nitro > 0) {
+        if (nitroSound.paused) {
+            nitroSound.play().catch(() => {});
+        }
         currentAccel = ACCEL * 2;
         state.nitro = Math.max(0, state.nitro - 30 * deltaTime);
+    } else {
+        if (!nitroSound.paused) {
+            nitroSound.pause();
+            nitroSound.currentTime = 0;
+        }
     }
 
     if (inputState.accelerate || (inputState.nitro && state.nitro > 0)) {
