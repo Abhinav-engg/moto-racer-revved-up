@@ -19,6 +19,7 @@ import {
 import { drawPlayer, updatePlayer } from './play/player.js';
 import { checkCollision, drawCoins } from './play/collision.js';
 import { calculateScore, isRaceComplete } from './play/play.js';
+import { updateOpponents, drawOpponents, checkOpponentsCollision } from './play/opponent.js';
 
 import {
     buildTrack
@@ -228,7 +229,9 @@ function update(deltaTime) {
 
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
+    updateOpponents(deltaTime);
     checkCollision(deltaTime);
+    checkOpponentsCollision();
 
     updateTimer(deltaTime);
     updateLap();
@@ -259,6 +262,7 @@ function draw() {
     drawRoad(ctx);
     drawLaneMarkings(ctx);
     drawCoins(ctx);
+    drawOpponents(ctx);
     drawPlayer(ctx);
 }
 
