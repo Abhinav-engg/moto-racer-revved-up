@@ -24,6 +24,7 @@ import {
 } from './background/track.js';
 import { drawScenery, buildForest } from './background/scenery.js';
 import { drawSky } from './background/sky.js';
+import './menu.js';
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -91,10 +92,6 @@ function updateSpeed(deltaTime) {
     state.speed = Math.max(0, Math.min(MAX_SPEED, state.speed));
 }
 
-buildTrack();
-buildForest();
-setupInputs();
-
 function update(deltaTime) {
     updateRoad(deltaTime);
     updatePlayer(deltaTime);
@@ -129,4 +126,17 @@ function gameLoop(currentTime) {
     requestAnimationFrame(gameLoop);
 }
 
-requestAnimationFrame(gameLoop);
+let gameStarted = false;
+
+window.addEventListener('game:start', () => {
+    if (gameStarted) {
+        return;
+    }
+
+    gameStarted = true;
+    buildTrack();
+    buildForest();
+    setupInputs();
+    lastTime = performance.now();
+    requestAnimationFrame(gameLoop);
+});
