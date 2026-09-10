@@ -14,6 +14,62 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.screen {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  background: linear-gradient(180deg, 'darkblue', 'blue');
+  color: white;
+}
+
+.screen h1 {
+  color: 'yellow';
+  font-size:48px;
+  letter-spacing:4px;
+}
+
+.screen button {
+  border:0;
+  cursor:pointer;
+}
+
+#start-button {
+  padding: 14px 34px;
+  border-radius: 8px;
+  background: 'yellow';
+  color: 'black';
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.track-buttons {
+  display: flex;
+  gap: 24px;
+}
+
+.track-button {
+  width: 260px;
+  height: 180px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: 'black';
+}
+
+.track-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hidden {
+  display: none;
+}
+
 .game {
   display: flex;
   flex-direction: column;
@@ -21,13 +77,17 @@ body {
   gap: 16px;
 }
 
+.game.hidden {
+  display: none;
+}
+
 .title {
-  color: #ffd700;
+  color: 'yellow';
   font-size: 28px;
   font-weight: 900;
   letter-spacing: 3px;
   text-transform: uppercase;
-  text-shadow: 0 4px 16px rgba(255, 226, 61, 0.4);
+  text-shadow: 0 4px 16px rgba(255, 255, 0, 0.4);
 }
 
 .arena {
@@ -238,4 +298,42 @@ canvas {
   height: 600px;
   aspect-ratio: 4 / 3;
   border-radius: 8px;
+}
+
+.instruction-text {
+    position:absolute;
+    top:100px;
+    right: 16px;
+    z-index: 10;
+
+    padding: 8px 14px;
+    background: rgba(10, 10, 10, 0.75);
+    border-radius: 8px;
+
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#game-over-screen h1 {
+    color: 'red';
+    font-size: 60px;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+}
+
+#restart-button {
+    padding: 15px 50px;
+    border: 3px solid 'yellow';
+    border-radius: 10px;
+    background: #222;
+    color: 'yellow';
+    font-size: 22px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+#restart-button:hover {
+    background: 'yellow';
+    color: 'black';
 }
