@@ -1,27 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta
+      charset="UTF-8"
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Moto Racer-Revved Up</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="game">
-        <h1 class="title">Moto Racer Revved Up</h1>
-        <div class="arena">
-            <div class="hud">
-                <div class="card">
-                    <span class="label">LAP</span>
-                    <span class="value" id="lap">00/03</span>
-                </div>
-                <div class="card">
-                    <span class="label">TIME</span>
-                    <span class="value" id="timer">05:00</span>
-                </div>
-            </div>
-            <canvas id="canvas"></canvas>
+      <h1 class="title">Moto Racer Revved Up</h1>
+      <div class="arena">
+        <div class="hud">
+          <div class="card">
+            <span class="label">LAP</span>
+            <span class="value" id="lap">00/03</span>
+          </div>
+          <div class="card">
+            <span class="label">TIME</span>
+            <span class="value" id="timer">05:00</span>
+          </div>
         </div>
+
+        <div class="nitro-bar">
+          <div class="nitro-fill" id="nitro-fill"></div>
+        </div>
+
+        <div class="lives" id="lives">
+          <span class="heart">❤️</span>
+          <span class="heart">❤️</span>
+          <span class="heart">❤️</span>
+        </div>
+
+        <canvas id="canvas"></canvas>
+      </div>
     </div>
     <script type="module" src="js/main.js"></script>
-</body>
+  </body>
 </html>
