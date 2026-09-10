@@ -13,10 +13,6 @@ export function drawGrass(ctx) {
   for (let i = DRAW_DISTANCE; i >= 0; i--) {
     const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
     const nextIndex = (baseIndex + i + 1) % ROAD_SEGMENTS;
-    if (nextIndex < currentIndex) {
-      continue;
-    }
-
     const current = projectSegment(state.road[currentIndex]);
     const next = projectSegment(state.road[nextIndex]);
 

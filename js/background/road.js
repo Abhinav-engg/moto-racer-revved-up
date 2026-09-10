@@ -73,10 +73,6 @@ export function drawRoad(ctx) {
         const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
         const nextIndex =(baseIndex+i+1)%ROAD_SEGMENTS;
 
-        if (nextIndex < currentIndex) {
-            continue;
-        }
-
         const current =projectSegment(state.road[currentIndex]);
         const next = projectSegment(state.road[nextIndex]);
 
@@ -117,6 +113,9 @@ export function drawRoad(ctx) {
 export function updateRoad(deltaTime) {
     state.cameraZ += state.speed * deltaTime;
     if (state.tracklength > 0) {
+        if (state.cameraZ >= state.tracklength) {
+            state.lap++;
+        }
         state.cameraZ %= state.tracklength;
         if (state.cameraZ < 0) {
             state.cameraZ += state.tracklength;
@@ -134,10 +133,6 @@ export function drawRoadShoulders(ctx) {
 
         const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
         const nextIndex = (baseIndex + i + 1) % ROAD_SEGMENTS;
-        if (nextIndex < currentIndex) {
-            continue;
-        }
-
         const current = projectSegment(state.road[currentIndex]);
         const next = projectSegment(state.road[nextIndex]);
 
@@ -181,6 +176,33 @@ export function drawRoadShoulders(ctx) {
     }
 }
 
+export function getCurrentShoulder() {
+    if (!state.road || state.road.length === 0) return null;
+    const baseIndex = Math.floor(state.cameraZ / SEGMENT_LENGTH);
+    let target = null;
+    for (let i = 1; i <= DRAW_DISTANCE; i++) {
+        const segIndex = (baseIndex + i) % ROAD_SEGMENTS;
+        const projected = projectSegment(state.road[segIndex]);
+        if (projected && projected.y <= CANVAS_HEIGHT) {
+            target = projected;
+            if (projected.y <= CANVAS_HEIGHT - 60) {
+                break;
+            }
+        }
+    }
+
+    if (!target) return null;
+
+    const currentShoulderWidth = target.width * 1.15;
+    return {
+        x: target.x,
+        y: target.y,
+        width: currentShoulderWidth,
+        leftX: target.x - currentShoulderWidth / 2,
+        rightX: target.x + currentShoulderWidth / 2
+    };
+}
+
 
 export function drawLaneMarkings(ctx) {
 
@@ -190,10 +212,6 @@ export function drawLaneMarkings(ctx) {
 
         const currentIndex = (baseIndex + i) % ROAD_SEGMENTS;
         const nextIndex = (baseIndex + i + 1) % ROAD_SEGMENTS;
-        if (nextIndex < currentIndex) {
-            continue;
-        }
-
         const current = projectSegment(state.road[currentIndex]);
         const next = projectSegment(state.road[nextIndex]);
 
@@ -279,6 +297,19 @@ export function getRoadX(z) {
 
     const progress = segmentPosition - Math.floor(segmentPosition);
     return segment.x + (nextSegment.x - segment.x) * progress;
+}
+
+export function closeRoad() {
+    if (state.road.length < 2) {
+        return;
+    }
+
+    const endOffset = state.road[state.road.length - 1].x;
+    const lastIndex = state.road.length - 1;
+
+    for (let i = 0; i < state.road.length; i++) {
+        state.road[i].x -= endOffset * (i / lastIndex);
+    }
 }
 
 

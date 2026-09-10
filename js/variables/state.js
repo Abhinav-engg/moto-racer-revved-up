@@ -5,5 +5,9 @@ export const state = {
 	cameraZ: 0,
 	playerZ: 0,
 	playerX: 0,
-	speed: 0
+	speed: 0,
+	lap: 0,
+	nitro: 100,
+	lives: 3,
+	coins: 0
 };
