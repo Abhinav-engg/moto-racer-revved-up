@@ -1,20 +1,37 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta
-      charset="UTF-8"
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>Moto Racer-Revved Up</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div id="start-screen" class="screen">
-      <button id="start-button">START GAME</button>
-    </div>
 
-    <!-- <div id="mode-screen" class="screen hidden">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moto Racer-Revved Up</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="start-screen" class="screen">
+    <button id="start-button" class="home-pg-btn">START GAME</button>
+    <button id="instruction-button" class="home-pg-btn"> INSTRUCTIONS</button>
+  </div>
+
+  <div id="instruction-screen" class="screen hidden">
+    <div class="instruction-box">
+      <h2>HOW TO PLAY</h2>
+      <div class="controls">
+        <p><b>W</b> Accelerate</p>
+        <p><b>S</b> Brake</p>
+        <p><b>A / D</b> Steer Left / Right</p>
+        <p><b>SPACE</b> Nitro</p>
+      </div>
+      <div class="rules">
+        <p>Complete 3 laps before time runs out</p>
+        <p>Avoid crashes to save lives</p>
+        <p>Collect coins for points</p>
+      </div>
+      <button id="instruction-back-button" class="home-pg-btn">BACK</button>
+    </div>
+  </div>
+
+  <!-- <div id="mode-screen" class="screen hidden">
       <h1>PICK YOUR MODE</h1>
       <div class="mode-buttons">
         <button class="mode-button" id="normal-button">
@@ -25,30 +42,30 @@
         </button>
       </div> -->
 
-    <div id="track-screen" class="screen hidden">
-      <h1>PICK YOUR TRACK</h1>
-      <div class="track-buttons">
+  <div id="track-screen" class="screen hidden">
+    <h1>PICK YOUR TRACK</h1>
+    <div class="track-buttons">
 
-        <button class="track-button" id="classic-button">
-          <img src="assets/elements/classic-mode.png" alt="Classic Track">
-          <h2>Classic Track</h2>
-        </button>
-        
-        <button class="track-button" id="snowy-button">
-          <img src="assets/elements/snowy-mode.png" alt="Snowy Track">
-          <h2>Snowy Track</h2>
-        </button>
-      </div>
+      <button class="track-button" id="classic-button">
+        <img src="assets/elements/classic-mode.png" alt="Classic Track">
+        <h2>Classic Track</h2>
+      </button>
+
+      <button class="track-button" id="snowy-button">
+        <img src="assets/elements/snowy-mode.png" alt="Snowy Track">
+        <h2>Snowy Track</h2>
+      </button>
     </div>
+  </div>
 
-    <div id="game-over-screen" class="screen hidden">
+  <div id="game-over-screen" class="screen hidden">
     <h1>GAME OVER</h1>
 
     <button id="restart-button">RESTART</button>
 
-</div>
+  </div>
 
-    <div class="game hidden">
+  <div class="game hidden">
     <div class="arena">
       <div class="hud">
         <div class="card">
@@ -61,6 +78,16 @@
         </div>
       </div>
 
+      <div class="speed-display" id="speed-display">
+        <span class="label">SPEED</span>
+        <span class="value" id="speed">0 km/h</span>
+      </div>
+
+      <div class="distance-display" id="distance-display">
+        <span class="label">DIST</span>
+        <span class="value" id="distance">0.00 km</span>
+      </div>
+
       <div class="nitro-bar">
         <div class="nitro-fill" id="nitro-fill"></div>
       </div>
@@ -71,43 +98,53 @@
         <span class="heart">❤️</span>
       </div>
 
-        <div class="coins">
-          <span class="coin-icon">🪙</span>
-          <span class="value" id="coins">0</span>
-        </div>
-<div class="instruction-text">
-    W to Accelerate | S to Brake | A/D to Steer | SPACE for Nitro
-</div>
-
-        <div id="race-complete" class="race-complete hidden">
-          <div class="modal-card">
-            <h2 class="modal-title">RACE COMPLETED</h2>
-            <div class="stats-container">
-              <div class="stat-row">
-                <span class="stat-label">Coins Collected</span>
-                <span class="stat-value" id="final-coins">0</span>
-              </div>
-              <div class="stat-row">
-                <span class="stat-label">Lives Remaining</span>
-                <span class="stat-value" id="final-lives">3</span>
-              </div>
-              <div class="stat-row score-row">
-                <span class="stat-label">SCORE</span>
-                <span class="stat-value score-val" id="final-score">0</span>
-              </div>
-            </div>
-            <button type="button" class="restart-btn" id="restart-btn">PLAY AGAIN</button>
-          </div>
-        </div>
-
-
-    
-
-      <canvas id="canvas"></canvas>
+      <div class="coins">
+        <span class="coin-icon">🪙</span>
+        <span class="value" id="coins">0</span>
       </div>
+      <div class="instruction-text">
+        W to Accelerate | S to Brake | A/D to Steer | SPACE for Nitro
+      </div>
+
+      <div class="btns">
+        <button id="back">
+          <img src="assets/buttons/back.png" alt="Back">
+        </button>
+        <button id="mute">
+          <img src="assets/buttons/mute.png" alt="Mute">
+        </button>
+        
+         <button id="music-off">
+          <img src="assets/buttons/music-off.png" alt="Back">
+        </button>
+      </div>
+
+      <div id="race-complete" class="race-complete hidden">
+        <div class="modal-card">
+          <h2 class="modal-title">RACE COMPLETED</h2>
+          <div class="stats-container">
+            <div class="stat-row">
+              <span class="stat-label">Coins Collected</span>
+              <span class="stat-value" id="final-coins">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Lives Remaining</span>
+              <span class="stat-value" id="final-lives">3</span>
+            </div>
+            <div class="stat-row score-row">
+              <span class="stat-label">SCORE</span>
+              <span class="stat-value score-val" id="final-score">0</span>
+            </div>
+          </div>
+          <button type="button" class="restart-btn" id="restart-btn">PLAY AGAIN</button>
+        </div>
+      </div>
+      <canvas id="canvas"></canvas>
     </div>
+  </div>
   </div>
 
   <script type="module" src="js/main.js"></script>
 </body>
+
 </html>
