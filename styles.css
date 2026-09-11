@@ -22,48 +22,93 @@ body {
   justify-content: center;
   align-items: center;
   gap: 28px;
-  background: linear-gradient(180deg, 'darkblue', 'blue');
+  background-image: url(assets/elements/launch\ image.png);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
   color: white;
 }
 
 .screen h1 {
-  color: 'yellow';
-  font-size:48px;
-  letter-spacing:4px;
+  color: "yellow";
+  font-size: 48px;
+  letter-spacing: 4px;
 }
 
 .screen button {
-  border:0;
-  cursor:pointer;
+  border: 0;
+  cursor: pointer;
 }
 
 #start-button {
   padding: 14px 34px;
   border-radius: 8px;
-  background: 'yellow';
-  color: 'black';
+  background: "yellow";
+  color: "black";
   font-size: 18px;
   font-weight: 800;
 }
 
+#track-screen{
+ background-image: url(assets/elements/background.png);  
+  }
+
 .track-buttons {
   display: flex;
-  gap: 24px;
+  flex-direction: row;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 
 .track-button {
-  width: 260px;
-  height: 180px;
+  position: relative;
+  width: 400px;
+  height: 200px;
   padding: 0;
   overflow: hidden;
-  border-radius: 10px;
-  background: 'black';
+  border-radius: 12px;
+  background: #000;
+  border: 3px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.track-button:hover {
+  transform: translateY(-6px) scale(1.04);
+  border-color: rgba(216, 54, 54, 0.859);
+  box-shadow: 3px 3px 50px 10px rgba(199, 31, 31, 0.468);
 }
 
 .track-button img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease, filter 0.3s ease;
+}
+
+.track-button:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+
+.track-button h2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.track-button:hover h2 {
+  color: #ffd700;
+  transform: translateY(-2px);
 }
 
 .hidden {
@@ -82,7 +127,7 @@ body {
 }
 
 .title {
-  color: 'yellow';
+  color: "yellow";
   font-size: 28px;
   font-weight: 900;
   letter-spacing: 3px;
@@ -301,39 +346,39 @@ canvas {
 }
 
 .instruction-text {
-    position:absolute;
-    top:100px;
-    right: 16px;
-    z-index: 10;
+  position: absolute;
+  top: 100px;
+  right: 16px;
+  z-index: 10;
 
-    padding: 8px 14px;
-    background: rgba(10, 10, 10, 0.75);
-    border-radius: 8px;
+  padding: 8px 14px;
+  background: rgba(10, 10, 10, 0.75);
+  border-radius: 8px;
 
-    color: white;
-    font-size: 14px;
-    font-weight: 700;
-    white-space: nowrap;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 #game-over-screen h1 {
-    color: 'red';
-    font-size: 60px;
-    text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+  color: "red";
+  font-size: 60px;
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
 }
 
 #restart-button {
-    padding: 15px 50px;
-    border: 3px solid 'yellow';
-    border-radius: 10px;
-    background: #222;
-    color: 'yellow';
-    font-size: 22px;
-    font-weight: 900;
-    cursor: pointer;
+  padding: 15px 50px;
+  border: 3px solid "yellow";
+  border-radius: 10px;
+  background: #222;
+  color: "yellow";
+  font-size: 22px;
+  font-weight: 900;
+  cursor: pointer;
 }
 
 #restart-button:hover {
-    background: 'yellow';
-    color: 'black';
+  background: "yellow";
+  color: "black";
 }
