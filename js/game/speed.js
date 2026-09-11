@@ -6,7 +6,6 @@ import { updateBikeSound, updateNitroSound } from './audio.js';
 export function updateSpeed(deltaTime) {
     let currentAccel = ACCEL;
     const usingNitro = inputState.nitro && state.nitro > 0;
-
     updateBikeSound(inputState.accelerate);
     updateNitroSound(usingNitro);
 

@@ -16,8 +16,12 @@ lapSound.volume = 0.8;
 const crashSound = new Audio('assets/sfx/small_crash.mp3');
 crashSound.volume = 0.8;
 
+
+let isMuted = false;
+let isMusicOff = false;
+
 function play(sound) {
-	sound.play().catch(() => {});
+	sound.play().catch(() => { });
 }
 
 function stop(sound) {
@@ -27,11 +31,41 @@ function stop(sound) {
 
 export function setupAudioUnlock() {
 	const unlock = () => {
-		if (bgMusic.paused) play(bgMusic);
+		if (!isMusicOff && bgMusic.paused) play(bgMusic);
 	};
 
 	window.addEventListener('keydown', unlock, { once: true });
 	window.addEventListener('click', unlock, { once: true });
+}
+
+export function toggleMute() {
+	isMuted = !isMuted;
+	if (isMuted) {
+		[bgMusic, bikeSound, nitroSound, lapSound, crashSound].forEach((s) => {
+			s.volume = 0;
+		});
+	}
+	else {
+		bgMusic.volume = 0.4;
+		bikeSound.volume = 0.5;
+		nitroSound.volume = 0.6;
+		lapSound.volume = 0.8;
+		crashSound.volume = 0.8;
+		if (!isMusicOff && bgMusic.paused)
+			 play(bgMusic);
+	};
+
+	return isMuted;
+}
+
+export function toggleMusic() {
+	isMusicOff = !isMusicOff;
+	if (isMusicOff) {
+		bgMusic.pause();
+	} else if (!isMuted) {
+		play(bgMusic);
+	}
+	return isMusicOff;
 }
 
 export function updateBikeSound(isAccelerating) {

@@ -1,3 +1,5 @@
+import { toggleMute, toggleMusic } from './game/audio.js';
+
 const startScreen = document.getElementById('start-screen');
 const trackScreen = document.getElementById('track-screen');
 const gameScreen = document.querySelector('.game');
@@ -8,6 +10,8 @@ const classicButton = document.getElementById('classic-button');
 const snowyButton = document.getElementById('snowy-button');
 const endlessButton = document.getElementById('endless-button');
 const normalButton = document.getElementById('normal-button');
+const muteButton = document.getElementById('mute');
+const musicOffButton = document.getElementById('music-off');
 
 
 startButton.addEventListener('click', function () {
@@ -48,4 +52,14 @@ export function showGameOver() {
 
 restartButton.addEventListener('click', function () {
     location.reload();
+});
+
+muteButton.addEventListener('click', function () {
+    const muted = toggleMute();
+    muteButton.querySelector('img').style.opacity = muted ? '0.4' : '1';
+});
+
+musicOffButton.addEventListener('click', function () {
+    const off = toggleMusic();
+    musicOffButton.querySelector('img').style.opacity = off ? '0.4' : '1';
 });
