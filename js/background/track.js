@@ -10,7 +10,7 @@ function buildClassicTrack() {
     addHill(70, 25, 200);
 
     addCurve(95, 25, 1500);
-    addHill(95, 25, -30);
+    addHill(95, 25, -300);
 
     addCurve(120, 30, -2050);
 

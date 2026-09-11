@@ -1,5 +1,8 @@
 export const state = {
 	track: 'classic',
+	mode: 'normal',
+	timeLeft: 300,
+	gameOver: false,
 	road: [],
 	tracklength: 0,
 	cameraX: 0,
@@ -10,5 +13,7 @@ export const state = {
 	lap: 0,
 	nitro: 100,
 	lives: 3,
-	coins: 0
+	coins: 0,
+	timeLeft: 300,
+	gameOver: false
 };

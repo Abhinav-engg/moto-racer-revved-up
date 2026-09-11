@@ -8,13 +8,23 @@
     />
     <title>Moto Racer-Revved Up</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="shortcut icon" href="assets/favicon.png" type="image/x-icon">
   </head>
   <body>
     <div id="start-screen" class="screen">
       <h1>MOTO RACER</h1>
       <button id="start-button">START GAME</button>
     </div>
+
+    <!-- <div id="mode-screen" class="screen hidden">
+      <h1>PICK YOUR MODE</h1>
+      <div class="mode-buttons">
+        <button class="mode-button" id="normal-button">
+          <img src="assets/buttons/timedModebutton.png" alt="Normal Mode">
+        </button>
+        <button class="mode-button" id="endless-button">
+          <img src="assets/buttons/endlessModebutton.png" alt="Endless Mode">
+        </button>
+      </div> -->
 
     <div id="track-screen" class="screen hidden">
       <h1>PICK YOUR TRACK</h1>
@@ -29,7 +39,6 @@
     </div>
 
     <div id="game-over-screen" class="screen hidden">
-
     <h1>GAME OVER</h1>
 
     <button id="restart-button">RESTART</button>
@@ -89,7 +98,10 @@
           </div>
         </div>
 
-        <canvas id="canvas"></canvas>
+
+    
+
+      <canvas id="canvas"></canvas>
       </div>
     </div>
   </div>

@@ -6,6 +6,8 @@ const restartButton = document.getElementById('restart-button');
 const startButton = document.getElementById('start-button');
 const classicButton = document.getElementById('classic-button');
 const snowyButton = document.getElementById('snowy-button');
+const endlessButton = document.getElementById('endless-button');
+const normalButton = document.getElementById('normal-button');
 
 
 startButton.addEventListener('click', function () {
@@ -27,7 +29,6 @@ snowyButton.addEventListener('click', function () {
     startGame('snowy');
 
 });
-
 
 function startGame(track) {
 
