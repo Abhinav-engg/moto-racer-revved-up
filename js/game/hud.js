@@ -1,10 +1,15 @@
 import { state } from '../variables/state.js';
+import { MAX_SPEED } from '../variables/variable.js';
 import { playCrashSound, playLapSound } from './audio.js';
 
 const timerValue = document.getElementById('timer');
 const lapValue = document.getElementById('lap');
 const nitroFill = document.getElementById('nitro-fill');
 const coinsValue = document.getElementById('coins');
+const speedValue = document.getElementById('speed');
+const distanceValue = document.getElementById('distance');
+
+const MAX_DISPLAY_KMH = 250;
 
 let lastLap = state.lap;
 let lastLives = state.lives;
@@ -15,6 +20,8 @@ export function updateHud(deltaTime) {
 	updateNitro();
 	updateLives();
 	updateCoins();
+	updateSpeed();
+	updateDistance(deltaTime);
 }
 
 function updateTimer(deltaTime) {
@@ -51,6 +58,17 @@ export function updateCoins() {
 	if (coinsValue) coinsValue.textContent = String(state.coins);
 }
 
+function updateSpeed() {
+	const kmh = Math.round((state.speed / MAX_SPEED) * MAX_DISPLAY_KMH);
+	if (speedValue) speedValue.textContent = `${kmh} km/h`;
+}
+
+function updateDistance(deltaTime) {
+	const kmPerFrame = (state.speed / MAX_SPEED) * MAX_DISPLAY_KMH * (deltaTime / 3600);
+	state.distance += kmPerFrame;
+	if (distanceValue) distanceValue.textContent = `${state.distance.toFixed(2)} km`;
+}
+
 export function resetHud() {
 	lastLap = state.lap;
 	lastLives = state.lives;
@@ -59,4 +77,6 @@ export function resetHud() {
 	updateLives();
 	updateCoins();
 	if (timerValue) timerValue.textContent = '5:00';
+	if (speedValue) speedValue.textContent = '0 km/h';
+	if (distanceValue) distanceValue.textContent = '0.00 km';
 }
