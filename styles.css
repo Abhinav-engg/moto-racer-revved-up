@@ -21,12 +21,9 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 28px;
-  background-image: url(assets/elements/launch\ image.png);
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: cover;
   color: white;
+  gap: 40px;
+  padding-bottom: 100px;
 }
 
 .screen h1 {
@@ -40,18 +37,93 @@ body {
   cursor: pointer;
 }
 
-#start-button {
-  padding: 14px 34px;
-  border-radius: 8px;
-  background: "yellow";
-  color: "black";
-  font-size: 18px;
-  font-weight: 800;
+#start-screen {
+  background-image: url(assets/elements/launch\ image.png);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+    justify-content: end;
 }
 
-#track-screen{
- background-image: url(assets/elements/background.png);  
-  }
+.home-pg-btn {
+  padding: 14px 34px;
+  border-radius: 8px;
+  background: #ffd900;
+  color: black;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  width: 250px;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.home-pg-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  background: #b7ff00;
+  border-color: #fff;
+}
+
+#instruction-screen {
+  background-image: url(assets/elements/background.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.instruction-box {
+  background: #1a1a1a;
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 320px;
+}
+
+.instruction-box h2 {
+  color: #ffd700;
+  font-size: 22px;
+}
+
+.controls, .rules {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controls p {
+  display: flex;
+  justify-content: space-between;
+  color: #cac7c7;
+  font-size: 14px;
+}
+
+.controls b {
+  color: #ffd700;
+  font-family: monospace;
+}
+
+.rules {
+  border-top: 1px solid #312f2f;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.rules p {
+  color: #888;
+  font-size: 13px;
+}
+
+#track-screen {
+  background-image: url(assets/elements/background.png);
+}
 
 .track-buttons {
   display: flex;
@@ -69,7 +141,10 @@ body {
   border-radius: 12px;
   background: #000;
   border: 3px solid transparent;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .track-button:hover {
@@ -82,7 +157,9 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease, filter 0.3s ease;
+  transition:
+    transform 0.4s ease,
+    filter 0.3s ease;
 }
 
 .track-button:hover img {
@@ -96,7 +173,6 @@ body {
   left: 0;
   width: 100%;
   padding: 12px;
-
   color: #fff;
   font-size: 22px;
   font-weight: 800;
@@ -104,7 +180,9 @@ body {
   text-transform: uppercase;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   pointer-events: none;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .track-button:hover h2 {
@@ -171,7 +249,9 @@ body {
   border-radius: 8px;
   background: rgba(10, 10, 10, 0.6);
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
@@ -184,7 +264,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter:  invert(1);
+  filter: invert(1);
 }
 
 .card {

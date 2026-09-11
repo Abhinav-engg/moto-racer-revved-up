@@ -1,11 +1,14 @@
 import { toggleMute, toggleMusic } from './game/audio.js';
 
 const startScreen = document.getElementById('start-screen');
+const instructionScreen = document.getElementById('instruction-screen');
 const trackScreen = document.getElementById('track-screen');
 const gameScreen = document.querySelector('.game');
 const gameOverScreen = document.getElementById('game-over-screen');
 const restartButton = document.getElementById('restart-button');
 const startButton = document.getElementById('start-button');
+const instructionButton = document.getElementById('instruction-button');
+const instructionBackButton = document.getElementById('instruction-back-button');
 const classicButton = document.getElementById('classic-button');
 const snowyButton = document.getElementById('snowy-button');
 const endlessButton = document.getElementById('endless-button');
@@ -18,6 +21,16 @@ startButton.addEventListener('click', function () {
     startScreen.classList.add('hidden');
     trackScreen.classList.remove('hidden');
 
+});
+
+instructionButton.addEventListener('click', function () {
+    startScreen.classList.add('hidden');
+    instructionScreen.classList.remove('hidden');
+});
+
+instructionBackButton.addEventListener('click', function () {
+    instructionScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
 });
 
 
