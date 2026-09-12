@@ -95,6 +95,7 @@ export function playCrashSound() {
 }
 
 export function stopRaceAudio() {
+	stop(bgMusic);
 	stop(bikeSound);
 	stop(nitroSound);
 }

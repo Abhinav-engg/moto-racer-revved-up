@@ -51,3 +51,4 @@ export function resetGame() {
 }
 
 if (restartButton) restartButton.addEventListener('click', resetGame);
+window.addEventListener('game:back', resetGame);

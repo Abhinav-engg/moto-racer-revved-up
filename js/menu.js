@@ -17,6 +17,7 @@ const normalButton = document.getElementById('normal-button');
 const muteButton = document.getElementById('mute');
 const musicOffButton = document.getElementById('music-off');
 const modeScreen = document.getElementById('mode-screen');
+const backButton = document.getElementById('back');
 
 startButton.addEventListener('click', function () {
     startScreen.classList.add('hidden');
@@ -92,4 +93,13 @@ muteButton.addEventListener('click', function () {
 musicOffButton.addEventListener('click', function () {
     const off = toggleMusic();
     musicOffButton.querySelector('img').style.opacity = off ? '0.4' : '1';
+});
+
+backButton.addEventListener('click', function () {
+    gameScreen.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    trackScreen.classList.add('hidden');
+    modeScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+    window.dispatchEvent(new Event('game:back'));
 });
