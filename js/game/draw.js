@@ -17,7 +17,7 @@ export function drawGame(ctx) {
     const shakeY = (Math.random() * 2 - 1) * strength;
 
     ctx.save();
-    ctx.translate(shakeX, shakeY);
+    ctx.translate(shakeX, shakeY);	
 }
 
 

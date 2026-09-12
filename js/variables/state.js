@@ -20,4 +20,5 @@ export const state = {
 	gameOver: false,
 	shakeTime: 0,
     shakeIntensity: 0,
+	
 };
