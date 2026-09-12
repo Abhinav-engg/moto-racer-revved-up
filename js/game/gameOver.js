@@ -46,6 +46,7 @@ export function resetGame() {
 	state.timeLeft = 300;
 	state.elsapedTime = 0;
 	state.gameOver = false;
+	state.distance = 0;
 	if (raceCompleteModal) raceCompleteModal.classList.add('hidden');
 	resetHud();
 }

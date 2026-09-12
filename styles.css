@@ -491,6 +491,24 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+.best-distance-display {
+  position: absolute;
+  bottom: 66px;
+  right: 16px;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  background: rgba(10, 10, 10, 0.6);
+  border-radius: 8px;
+  padding: 8px 16px;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
 .distance-display {
   position: absolute;
   bottom: 16px;
@@ -514,20 +532,44 @@ canvas {
   border-radius: 8px;
 }
 
+.best-lap {
+    position: absolute;
+    top: 110px;
+    right: 16px;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: rgba(10, 10, 10, 0.5);
+    border-radius: 8px;
+    padding: 8px 14px;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
 .instruction-text {
-  position: absolute;
-  top: 100px;
-  right: 16px;
-  z-index: 10;
+    position: absolute;
+    top: 160px;
+    right: 16px;
+    z-index: 10;
 
-  padding: 8px 14px;
-  background: rgba(10, 10, 10, 0.75);
-  border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
+    padding: 8px 14px;
+
+    background: rgba(10, 10, 10, 0.5);
+    border-radius: 8px;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 #game-over-screen h1 {

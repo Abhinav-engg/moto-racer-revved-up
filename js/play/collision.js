@@ -1,7 +1,7 @@
 import { state } from '../variables/state.js';
 import { CANVAS_WIDTH, CANVAS_HEIGHT, SEGMENT_LENGTH, DRAW_DISTANCE } from '../variables/variable.js';
 import { getCurrentShoulder, projectSegment, getRoadX } from '../background/road.js';
-
+import { triggerScreenShake } from '../game/update.js';
 let cooldown = 0;
 const coins = [];
 const nitros = [];
@@ -96,6 +96,7 @@ export function checkCollision(deltaTime) {
 
         if (isOffRoad && cooldown <= 0 && state.lives > 0) {
             state.lives--;
+            triggerScreenShake();
             cooldown = 1.5;
         }
     }

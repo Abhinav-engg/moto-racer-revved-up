@@ -10,6 +10,10 @@ import { checkGameEnd } from './gameOver.js';
 export function updateGame(deltaTime) {
 	if (state.gameOver) return;
 
+	if (state.shakeTime > 0) {
+    state.shakeTime -= deltaTime;	
+	}
+
 	updateSpeed(deltaTime);
 	updateRoad(deltaTime);
 	updatePlayer(deltaTime);
@@ -18,4 +22,10 @@ export function updateGame(deltaTime) {
 	checkOpponentsCollision();
 	updateHud(deltaTime);
 	checkGameEnd();
+}
+
+
+export function triggerScreenShake(){
+	state.shakeTime = 0.5;
+	state.shakeIntensity = 3.0;
 }
