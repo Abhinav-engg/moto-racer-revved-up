@@ -1,4 +1,5 @@
 import { toggleMute, toggleMusic } from './game/audio.js';
+import { state } from './variables/state.js';
 
 const startScreen = document.getElementById('start-screen');
 const instructionScreen = document.getElementById('instruction-screen');
@@ -15,11 +16,11 @@ const endlessButton = document.getElementById('endless-button');
 const normalButton = document.getElementById('normal-button');
 const muteButton = document.getElementById('mute');
 const musicOffButton = document.getElementById('music-off');
-
+const modeScreen = document.getElementById('mode-screen');
 
 startButton.addEventListener('click', function () {
     startScreen.classList.add('hidden');
-    trackScreen.classList.remove('hidden');
+    modeScreen.classList.remove('hidden');
 
 });
 
@@ -32,6 +33,22 @@ instructionBackButton.addEventListener('click', function () {
     instructionScreen.classList.add('hidden');
     startScreen.classList.remove('hidden');
 });
+
+
+normalButton.addEventListener('click', function () {
+    state.mode = 'timed';
+    modeScreen.classList.add('hidden');
+    trackScreen.classList.remove('hidden');
+   
+});
+
+endlessButton.addEventListener('click', function () {
+    state.mode = 'endless';
+    modeScreen.classList.add('hidden');
+    trackScreen.classList.remove('hidden');
+});
+
+
 
 
 classicButton.addEventListener('click', function () {
@@ -52,7 +69,7 @@ function startGame(track) {
     trackScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
 
-    window.dispatchEvent(new CustomEvent('game:start', { detail: { track } }));
+    window.dispatchEvent(new CustomEvent('game:start', { detail: { track, mode: state.mode } }));
 
 }
 

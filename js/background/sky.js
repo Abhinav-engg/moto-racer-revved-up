@@ -10,6 +10,15 @@ auroraImg.src = 'assets/scenery/1.png';
 const mountainsImg = new Image();
 mountainsImg.src = 'assets/scenery/3.png';
 
+const skyImg = new Image();
+skyImg.src = 'assets/scenery/1 2.png';
+
+const cloudsImg = new Image();
+cloudsImg.src = 'assets/scenery/2 2.png';
+
+const groundImg = new Image();
+groundImg.src = 'assets/scenery/3 2.png';
+
 const STARS_PARALLAX = 0.002;
 const AURORA_PARALLAX = 0.008;
 const MOUNTAINS_PARALLAX = 0.01;
@@ -55,7 +64,13 @@ export function drawSky(ctx) {
     ctx.fillStyle = '#0a1a2f';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    drawTiledLayer(ctx, starsImg, STARS_PARALLAX, HORIZON_Y, HORIZON_Y);
-    drawTiledLayer(ctx, auroraImg, AURORA_PARALLAX, HORIZON_Y, HORIZON_Y);
-    drawTiledLayer(ctx, mountainsImg, MOUNTAINS_PARALLAX, HORIZON_Y, HORIZON_Y * 0.7);
+    drawTiledLayer(
+        ctx,
+        state.track == 'classic' ? skyImg : starsImg,
+        
+        STARS_PARALLAX,
+        HORIZON_Y, 
+        HORIZON_Y);
+    drawTiledLayer(ctx, state.track == 'classic' ? cloudsImg : auroraImg, AURORA_PARALLAX, HORIZON_Y, HORIZON_Y);
+    drawTiledLayer(ctx, state.track == 'classic' ? groundImg : mountainsImg, MOUNTAINS_PARALLAX, HORIZON_Y, HORIZON_Y * 0.7);
 }

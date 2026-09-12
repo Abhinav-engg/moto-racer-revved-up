@@ -25,10 +25,18 @@ export function updateHud(deltaTime) {
 }
 
 function updateTimer(deltaTime) {
-	state.timeLeft = Math.max(0, state.timeLeft - deltaTime);
+	if (state.mode == 'endless') {
+		state.elsapedTime += deltaTime;
+		if(timerValue) timerValue.textContent = state.elsapedTime.toFixed(2);
+	}else{
+		state.timeLeft = Math.max(0, state.timeLeft - deltaTime);
 	const minutes = Math.floor(state.timeLeft / 60);
 	const seconds = Math.floor(state.timeLeft % 60);
 	if (timerValue) timerValue.textContent = `${minutes}:${seconds}`;
+	}
+
+
+	
 }
 
 export function updateLap() {
@@ -36,7 +44,11 @@ export function updateLap() {
 		playLapSound();
 		lastLap = state.lap;
 	}
-	if (lapValue) lapValue.textContent = `${String(Math.min(3, state.lap))}/03`;
+	if (lapValue) {
+		lapValue.textContent = state.mode == 'endless'
+			? '∞'
+			: `${String(Math.min(3, state.lap))}/03`;
+	}
 }
 
 export function updateNitro() {
@@ -76,7 +88,7 @@ export function resetHud() {
 	updateNitro();
 	updateLives();
 	updateCoins();
-	if (timerValue) timerValue.textContent = '5:00';
+	if (timerValue) timerValue.textContent = state.mode == 'endless' ? '0.00' : '5:00';
 	if (speedValue) speedValue.textContent = '0 km/h';
 	if (distanceValue) distanceValue.textContent = '0.00 km';
 }

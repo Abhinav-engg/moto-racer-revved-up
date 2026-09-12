@@ -1,7 +1,8 @@
 export const state = {
 	track: 'classic',
-	mode: 'normal',
+	mode: 'timed',
 	timeLeft: 300,
+	elsapedTime: 0,
 	gameOver: false,
 	road: [],
 	tracklength: 0,

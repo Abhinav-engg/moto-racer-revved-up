@@ -18,7 +18,14 @@ export function checkGameEnd() {
 		return;
 	}
 
-	if (isRaceComplete(state.lap) && !state.gameOver) {
+	if (state.mode !== 'endless' && state.timeLeft <= 0 && !state.gameOver) {
+		state.gameOver = true;
+		stopRaceAudio();
+		showGameOver();
+		return;
+	}
+
+	if (state.mode !== 'endless' && isRaceComplete(state.lap) && !state.gameOver) {
 		state.gameOver = true;
 		stopRaceAudio();
 		if (finalCoins) finalCoins.textContent = String(state.coins);
@@ -37,6 +44,7 @@ export function resetGame() {
 	state.cameraZ = 0;
 	state.playerX = 0;
 	state.timeLeft = 300;
+	state.elsapedTime = 0;
 	state.gameOver = false;
 	if (raceCompleteModal) raceCompleteModal.classList.add('hidden');
 	resetHud();
