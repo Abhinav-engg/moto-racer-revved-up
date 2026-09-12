@@ -5,6 +5,10 @@ import { inputState } from '../inputs/inputs.js';
 const bikeSprite = new Image();
 bikeSprite.src = 'assets/sprites/bike-black.png';
 
+export function setBikeSprite(bikeId) {
+  bikeSprite.src = `assets/sprites/${bikeId}.png`;
+}
+
 const MAX_TILT = 0.25;
 const TILT_SPEED = 6;
 

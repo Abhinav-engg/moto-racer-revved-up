@@ -5,19 +5,19 @@ import { setupInputs } from '../inputs/inputs.js';
 import { updateGame } from './update.js';
 import { drawGame } from './draw.js';
 import { setupAudioUnlock, stopRaceAudio } from './audio.js';
+import { setBikeSprite } from '../play/player.js';
 
 let gameStarted = false;
 let lastTime = performance.now();
 let animationFrameId = null;
 
-export function startGame(ctx, track) {
+export function startGame(ctx, track, bike) {
 	if (gameStarted) return;
-
-	
 
 	gameStarted = true;
 	state.gameOver = false;
 	state.track = track === 'snowy' ? 'snowy' : 'classic';
+	setBikeSprite(bike || 'bike-black');
 	buildTrack();
 	buildForest();
 	setupInputs();

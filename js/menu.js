@@ -1,28 +1,67 @@
 import { toggleMute, toggleMusic } from './game/audio.js';
 import { state } from './variables/state.js';
+import { startGame } from './game/game.js';
 
 const startScreen = document.getElementById('start-screen');
 const instructionScreen = document.getElementById('instruction-screen');
-const trackScreen = document.getElementById('track-screen');
+const selectScreen = document.getElementById('select-screen');
 const gameScreen = document.querySelector('.game');
 const gameOverScreen = document.getElementById('game-over-screen');
-const restartButton = document.getElementById('restart-button');
+
 const startButton = document.getElementById('start-button');
 const instructionButton = document.getElementById('instruction-button');
 const instructionBackButton = document.getElementById('instruction-back-button');
-const classicButton = document.getElementById('classic-button');
-const snowyButton = document.getElementById('snowy-button');
-const endlessButton = document.getElementById('endless-button');
-const normalButton = document.getElementById('normal-button');
+const playButton = document.getElementById('play-button');
+const restartButton = document.getElementById('restart-button');
 const muteButton = document.getElementById('mute');
 const musicOffButton = document.getElementById('music-off');
-const modeScreen = document.getElementById('mode-screen');
 const backButton = document.getElementById('back');
+
+const modeTimed = document.getElementById('mode-timed');
+const modeEndless = document.getElementById('mode-endless');
+const trackClassic = document.getElementById('track-classic');
+const trackSnowy = document.getElementById('track-snowy');
+const bikeBlack = document.getElementById('bike-black');
+const bikeWhite = document.getElementById('bike-white');
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+let selectedMode = localStorage.getItem('selectedMode') || 'timed';
+let selectedTrack = localStorage.getItem('selectedTrack') || 'classic';
+let selectedBike = localStorage.getItem('selectedBike') || 'bike-black';
+
+updateSelectionUI();
+
+function updateSelectionUI() {
+    if (selectedMode === 'timed') {
+        modeTimed.classList.add('selected');
+        modeEndless.classList.remove('selected');
+    } else {
+        modeEndless.classList.add('selected');
+        modeTimed.classList.remove('selected');
+    }
+
+    if (selectedTrack === 'classic') {
+        trackClassic.classList.add('selected');
+        trackSnowy.classList.remove('selected');
+    } else {
+        trackSnowy.classList.add('selected');
+        trackClassic.classList.remove('selected');
+    }
+
+    if (selectedBike === 'bike-black') {
+        bikeBlack.classList.add('selected');
+        bikeWhite.classList.remove('selected');
+    } else {
+        bikeWhite.classList.add('selected');
+        bikeBlack.classList.remove('selected');
+    }
+}
 
 startButton.addEventListener('click', function () {
     startScreen.classList.add('hidden');
-    modeScreen.classList.remove('hidden');
-
+    selectScreen.classList.remove('hidden');
 });
 
 instructionButton.addEventListener('click', function () {
@@ -35,50 +74,54 @@ instructionBackButton.addEventListener('click', function () {
     startScreen.classList.remove('hidden');
 });
 
-
-normalButton.addEventListener('click', function () {
-    state.mode = 'timed';
-    modeScreen.classList.add('hidden');
-    trackScreen.classList.remove('hidden');
-   
+modeTimed.addEventListener('click', function () {
+    selectedMode = 'timed';
+    localStorage.setItem('selectedMode', 'timed');
+    updateSelectionUI();
 });
 
-endlessButton.addEventListener('click', function () {
-    state.mode = 'endless';
-    modeScreen.classList.add('hidden');
-    trackScreen.classList.remove('hidden');
+modeEndless.addEventListener('click', function () {
+    selectedMode = 'endless';
+    localStorage.setItem('selectedMode', 'endless');
+    updateSelectionUI();
 });
 
-
-
-
-classicButton.addEventListener('click', function () {
-
-    startGame('classic');
-
+trackClassic.addEventListener('click', function () {
+    selectedTrack = 'classic';
+    localStorage.setItem('selectedTrack', 'classic');
+    updateSelectionUI();
 });
 
-
-snowyButton.addEventListener('click', function () {
-
-    startGame('snowy');
-
+trackSnowy.addEventListener('click', function () {
+    selectedTrack = 'snowy';
+    localStorage.setItem('selectedTrack', 'snowy');
+    updateSelectionUI();
 });
 
-function startGame(track) {
+bikeBlack.addEventListener('click', function () {
+    selectedBike = 'bike-black';
+    localStorage.setItem('selectedBike', 'bike-black');
+    updateSelectionUI();
+});
 
-    trackScreen.classList.add('hidden');
+bikeWhite.addEventListener('click', function () {
+    selectedBike = 'bike-white';
+    localStorage.setItem('selectedBike', 'bike-white');
+    updateSelectionUI();
+});
+
+playButton.addEventListener('click', function () {
+    state.mode = selectedMode;
+
+    selectScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
 
-    window.dispatchEvent(new CustomEvent('game:start', { detail: { track, mode: state.mode } }));
-
-}
+    startGame(ctx, selectedTrack, selectedBike);
+});
 
 export function showGameOver() {
-
     gameScreen.classList.add('hidden');
     gameOverScreen.classList.remove('hidden');
-
 }
 
 restartButton.addEventListener('click', function () {
@@ -98,8 +141,7 @@ musicOffButton.addEventListener('click', function () {
 backButton.addEventListener('click', function () {
     gameScreen.classList.add('hidden');
     gameOverScreen.classList.add('hidden');
-    trackScreen.classList.add('hidden');
-    modeScreen.classList.add('hidden');
+    selectScreen.classList.add('hidden');
     startScreen.classList.remove('hidden');
     window.dispatchEvent(new Event('game:back'));
 });

@@ -31,32 +31,50 @@
     </div>
   </div>
 
-  <div id="mode-screen" class="screen hidden">
-      <h1>PICK YOUR MODE</h1>
-      <div class="mode-buttons">
-        <button class="mode-button" id="normal-button">
-          <img src="assets/buttons/timedModebutton.png" alt="Normal Mode">
+  <div id="select-screen" class="screen hidden">
+    <h1>SET UP YOUR RACE</h1>
+
+    <div class="select-section">
+      <h2>PICK YOUR MODE</h2>
+      <div class="select-buttons">
+        <button class="select-card selected" id="mode-timed">
+          <img src="assets/buttons/timedModebutton.png" alt="Timed Mode">
         </button>
-        <button class="mode-button" id="endless-button">
+        <button class="select-card" id="mode-endless">
           <img src="assets/buttons/endlessModebutton.png" alt="Endless Mode">
         </button>
       </div>
-  </div>
-
-  <div id="track-screen" class="screen hidden">
-    <h1>PICK YOUR TRACK</h1>
-    <div class="track-buttons">
-
-      <button class="track-button" id="classic-button">
-        <img src="assets/elements/classic-mode.png" alt="Classic Track">
-        <h2>Classic Track</h2>
-      </button>
-
-      <button class="track-button" id="snowy-button">
-        <img src="assets/elements/snowy-mode.png" alt="Snowy Track">
-        <h2>Snowy Track</h2>
-      </button>
     </div>
+
+    <div class="select-section">
+      <h2>PICK YOUR TRACK</h2>
+      <div class="select-buttons">
+        <button class="select-card selected" id="track-classic">
+          <img src="assets/elements/classic-mode.png" alt="Classic Track">
+          <h3>Classic</h3>
+        </button>
+        <button class="select-card" id="track-snowy">
+          <img src="assets/elements/snowy-mode.png" alt="Snowy Track">
+          <h3>Snowy</h3>
+        </button>
+      </div>
+    </div>
+
+    <div class="select-section">
+      <h2>PICK YOUR BIKE</h2>
+      <div class="select-buttons">
+        <button class="select-card bike-card selected" id="bike-black">
+          <img src="assets/sprites/bike-black.png" alt="Black Bike">
+          <h3>Black</h3>
+        </button>
+        <button class="select-card bike-card" id="bike-white">
+          <img src="assets/sprites/bike-white.png" alt="White Bike">
+          <h3>White</h3>
+        </button>
+      </div>
+    </div>
+
+    <button id="play-button" class="home-pg-btn">PLAY</button>
   </div>
 
   <div id="game-over-screen" class="screen hidden">
@@ -114,7 +132,7 @@
         <button id="mute">
           <img src="assets/buttons/mute.png" alt="Mute">
         </button>
-        
+
          <button id="music-off">
           <img src="assets/buttons/music-off.png" alt="Back">
         </button>
