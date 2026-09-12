@@ -3,69 +3,52 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT, STEER_SPEED } from '../variables/variable.
 import { inputState } from '../inputs/inputs.js';
 
 const bikeSprite = new Image();
-bikeSprite.src = 'assets/sprites/bike.png';
+bikeSprite.src = 'assets/sprites/bike-black.png';
 
-const spriteCols = 7;
-const CENTER_FRAME = Math.floor(spriteCols / 2);
-const MIN_FRAME = 0;
-const MAX_FRAME = spriteCols - 1;
-const FRAME_ANIMATION_SPEED = 12;
+const MAX_TILT = 0.25;
+const TILT_SPEED = 6;
 
-let currentFrame = CENTER_FRAME;
+let tiltAngle = 0;
 
 export function updatePlayer(deltaTime) {
-  let targetFrame = CENTER_FRAME;
+  let targetTilt = 0;
 
   if (inputState.left) {
-    state.playerX -= (STEER_SPEED || 2.5) * deltaTime;
-    targetFrame = MIN_FRAME;
+    state.playerX -= STEER_SPEED * deltaTime;
+    targetTilt = -MAX_TILT;
   }
   if (inputState.right) {
-    state.playerX += (STEER_SPEED || 2.5) * deltaTime;
-    targetFrame = MAX_FRAME;
+    state.playerX += STEER_SPEED * deltaTime;
+    targetTilt = MAX_TILT;
   }
 
-  const maxPlayerX = 1.2;
-  state.playerX = Math.max(-maxPlayerX, Math.min(maxPlayerX, state.playerX));
+  state.playerX = Math.max(-1, Math.min(1, state.playerX));
 
-  if (currentFrame < targetFrame) {
-    currentFrame = Math.min(targetFrame, currentFrame + FRAME_ANIMATION_SPEED * deltaTime);
-  } else if (currentFrame > targetFrame) {
-    currentFrame = Math.max(targetFrame, currentFrame - FRAME_ANIMATION_SPEED * deltaTime);
+  if (tiltAngle < targetTilt) {
+    tiltAngle = Math.min(targetTilt, tiltAngle + TILT_SPEED * deltaTime);
+  } else if (tiltAngle > targetTilt) {
+    tiltAngle = Math.max(targetTilt, tiltAngle - TILT_SPEED * deltaTime);
   }
 }
 
 export function drawPlayer(ctx) {
-  const realWidth = bikeSprite.naturalWidth;
-  const realHeight = bikeSprite.naturalHeight;
-
-  if (!bikeSprite.complete || realWidth === 0) {
+  if (!bikeSprite.complete || bikeSprite.naturalWidth === 0) {
     return;
   }
 
-  const sourceWidth = realWidth / spriteCols;
-  const sourceHeight = realHeight;
-  const frameIndex = Math.max(0, Math.min(spriteCols - 1, Math.round(currentFrame)));
-
-  const sourceX = frameIndex * sourceWidth;
-  const sourceY = 0;
-
-  const drawWidth = 150;
+  const drawWidth = 70;
   const drawHeight = 150;
 
   const playerScreenX = CANVAS_WIDTH / 2 + (state.playerX || 0) * (CANVAS_WIDTH / 2);
   const x = Math.max(0, Math.min(CANVAS_WIDTH - drawWidth, playerScreenX - drawWidth / 2));
   const y = CANVAS_HEIGHT - drawHeight - 10;
 
-  ctx.drawImage(
-    bikeSprite,
-    sourceX,
-    sourceY,
-    sourceWidth,
-    sourceHeight,
-    x,
-    y,
-    drawWidth,
-    drawHeight
-  );
+  const centerX = x + drawWidth / 2;
+  const centerY = y + drawHeight / 2;
+
+  ctx.save();
+  ctx.translate(centerX, centerY);
+  ctx.rotate(tiltAngle);
+  ctx.drawImage(bikeSprite, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+  ctx.restore();
 }
