@@ -17,5 +17,7 @@ export const state = {
 	lives: 3,
 	coins: 0,
 	timeLeft: 300,
-	gameOver: false
+	gameOver: false,
+	shakeTime: 0,
+    shakeIntensity: 0,
 };
