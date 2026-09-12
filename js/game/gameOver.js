@@ -18,7 +18,7 @@ export function checkGameEnd() {
 		return;
 	}
 
-	if (state.mode !== 'endless' && state.timeLeft <= 0 && !state.gameOver) {
+	if (state.mode !== 'endless' && state.timeLeft == 0 && !state.gameOver) {
 		state.gameOver = true;
 		stopRaceAudio();
 		showGameOver();

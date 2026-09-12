@@ -102,7 +102,7 @@ export function drawRoad(ctx) {
             next.y
         );
         ctx.closePath();
-        ctx.fillStyle = 'gray';
+        ctx.fillStyle = currentIndex == 0 ? 'white' : 'grey';
 
         ctx.fill();
     }

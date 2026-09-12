@@ -61,7 +61,7 @@ function drawTiledLayer(ctx, img, parallax, bottomY, height) {
 
 export function drawSky(ctx) {
 
-    ctx.fillStyle = '#0a1a2f';
+    ctx.fillStyle = state.track === 'classic' ? '#66a391' : '#0a1a2f';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     drawTiledLayer(
