@@ -6,6 +6,7 @@ import { updateGame } from './update.js';
 import { drawGame } from './draw.js';
 import { setupAudioUnlock, stopRaceAudio } from './audio.js';
 import { setBikeSprite } from '../play/player.js';
+import { initOpponents } from '../play/opponent.js';
 
 let gameStarted = false;
 let lastTime = performance.now();
@@ -20,6 +21,7 @@ export function startGame(ctx, track, bike) {
 	setBikeSprite(bike || 'bike-black');
 	buildTrack();
 	buildForest();
+	initOpponents();
 	setupInputs();
 	setupAudioUnlock();
 	lastTime = performance.now();

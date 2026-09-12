@@ -15,7 +15,5 @@ export const state = {
 	lap: 0,
 	nitro: 100,
 	lives: 3,
-	coins: 0,
-	timeLeft: 300,
-	gameOver: false
+	coins: 0
 };
