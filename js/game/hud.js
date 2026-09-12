@@ -7,6 +7,7 @@ const lapValue = document.getElementById('lap');
 const nitroFill = document.getElementById('nitro-fill');
 const coinsValue = document.getElementById('coins');
 const speedValue = document.getElementById('speed');
+const bestDistanceValue = document.getElementById('best-distance');
 const distanceValue = document.getElementById('distance');
 const bestLapValue = document.getElementById('best-lap');
 
@@ -14,10 +15,15 @@ const MAX_DISPLAY_KMH = 250;
 let lapStartTime = 0;
 let lastLap = state.lap;
 let lastLives = state.lives;
-let bestLap = parseFloat(localStorage.getItem('bestLap')) || null;
+let bestLap = parseFloat(localStorage.getItem('bestLap')) || 0;
 if (bestLap != null) {
     bestLap = Number(bestLap);
 }
+
+
+let bestDistance = Number(
+	localStorage.getItem('bestDistance')
+) || 0;
 
 export function updateHud(deltaTime) {
 	updateTimer(deltaTime);
@@ -27,6 +33,7 @@ export function updateHud(deltaTime) {
 	updateCoins();
 	updateSpeed();
 	updateDistance(deltaTime);
+	updateBestDistance();
 }
 
 function updateTimer(deltaTime) {
@@ -122,6 +129,33 @@ function updateSpeed() {
 	if (speedValue) speedValue.textContent = `${kmh} km/h`;
 }
 
+function updateBestDistance() {
+	if (state.mode !== 'endless') {
+		if (bestDistanceValue) {
+			bestDistanceValue.parentElement.style.display = 'none';
+		}
+		return;
+	}
+
+	if (bestDistanceValue) {
+		bestDistanceValue.parentElement.style.display = 'flex';
+	}
+
+	if (state.distance > bestDistance) {
+		bestDistance = state.distance;
+
+		localStorage.setItem(
+			'bestDistance',
+			bestDistance.toString()
+		);
+	}
+
+	if (bestDistanceValue) {
+		bestDistanceValue.textContent =
+			`${bestDistance.toFixed(2)} km`;
+	}
+}
+
 function updateDistance(deltaTime) {
 	const kmPerFrame = (state.speed / MAX_SPEED) * MAX_DISPLAY_KMH * (deltaTime / 3600);
 	state.distance += kmPerFrame;
@@ -140,4 +174,6 @@ export function resetHud() {
 	if (timerValue) timerValue.textContent = state.mode == 'endless' ? '0.00' : '5:00';
 	if (speedValue) speedValue.textContent = '0 km/h';
 	if (distanceValue) distanceValue.textContent = '0.00 km';
+
+	updateBestDistance();
 }

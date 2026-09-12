@@ -16,9 +16,8 @@ export const state = {
 	nitro: 100,
 	lives: 3,
 	coins: 0,
-	timeLeft: 300,
-	gameOver: false,
 	shakeTime: 0,
     shakeIntensity: 0,
+	
 	
 };
