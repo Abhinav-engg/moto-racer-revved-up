@@ -15,9 +15,5 @@ export const state = {
 	lap: 0,
 	nitro: 100,
 	lives: 3,
-	coins: 0,
-	shakeTime: 0,
-    shakeIntensity: 0,
-	
-	
+	coins: 0
 };

@@ -1,5 +1,5 @@
 import { state } from '../variables/state.js';
-import { CANVAS_WIDTH, CANVAS_HEIGHT, SEGMENT_LENGTH, DRAW_DISTANCE } from '../variables/variable.js';
+import { CANVAS_WIDTH, CANVAS_HEIGHT, SEGMENT_LENGTH, DRAW_DISTANCE, ACCEL } from '../variables/variable.js';
 import { projectSegment, getRoadX } from '../background/road.js';
 
 const spriteSources = [
@@ -19,19 +19,51 @@ const opponentSprites = spriteSources.map((src) => {
 const opponents = [];
 let cooldown = 0;
 
-export function updateOpponents(deltaTime) {
-    if (opponents.length === 0 && state.tracklength > 0) {
+export function initOpponents() {
+    opponents.length = 0;
+    cooldown = 0;
+
+    if (!state.tracklength || state.tracklength === 0) return;
+
+    if (state.mode === 'timed') {
+        opponents.push({
+            z: 300,
+            xOffset: -0.35,
+            targetX: -0.35,
+            speed: 0,
+            topSpeed: 6800,
+            steerSpeed: 0.6,
+            changeTimer: 2.5,
+            spriteIndex: 0
+        });
+        opponents.push({
+            z: 600,
+            xOffset: 0.35,
+            targetX: 0.35,
+            speed: 0,
+            topSpeed: 7100,
+            steerSpeed: 0.6,
+            changeTimer: 3.5,
+            spriteIndex: 1
+        });
+    } else {
         for (let z = 4000; z < state.tracklength; z += 8000) {
             opponents.push({
                 z: z,
                 xOffset: Math.random() * 1.2 - 0.6,
                 targetX: Math.random() * 1.2 - 0.6,
-                speed: 1800 + Math.random() * 1800,
-                steerSpeed: 0.5 + Math.random() * 0.8,
+                speed: 1500 + Math.random() * 1500,
+                steerSpeed: 0.4 + Math.random() * 0.5,
                 changeTimer: Math.random() * 3 + 1,
                 spriteIndex: Math.floor(Math.random() * opponentSprites.length)
             });
         }
+    }
+}
+
+export function updateOpponents(deltaTime) {
+    if (opponents.length === 0 && state.tracklength > 0) {
+        initOpponents();
     }
 
     if (cooldown > 0) {
@@ -40,14 +72,14 @@ export function updateOpponents(deltaTime) {
 
     for (let i = 0; i < opponents.length; i++) {
         const opp = opponents[i];
-        opp.z = (opp.z + opp.speed * deltaTime) % state.tracklength;
 
-        opp.changeTimer -= deltaTime;
-        if (opp.changeTimer <= 0) {
-            opp.targetX = Math.random() * 1.2 - 0.6;
-            opp.changeTimer = Math.random() * 3 + 2;
-            opp.speed = 1800 + Math.random() * 1800;
+        if (state.mode === 'timed') {
+            updateRaceRival(opp, deltaTime);
+        } else {
+            updateTraffic(opp, deltaTime);
         }
+
+        opp.z = (opp.z + opp.speed * deltaTime) % state.tracklength;
 
         const diff = opp.targetX - opp.xOffset;
         if (Math.abs(diff) > 0.02) {
@@ -56,6 +88,27 @@ export function updateOpponents(deltaTime) {
         }
 
         opp.xOffset = Math.max(-0.7, Math.min(0.7, opp.xOffset));
+    }
+}
+
+function updateRaceRival(opp, deltaTime) {
+    if (state.speed > 0 && opp.speed < opp.topSpeed) {
+        opp.speed = Math.min(opp.topSpeed, opp.speed + ACCEL * 0.9 * deltaTime);
+    }
+
+    opp.changeTimer -= deltaTime;
+    if (opp.changeTimer <= 0) {
+        opp.targetX = Math.random() * 0.8 - 0.4;
+        opp.changeTimer = Math.random() * 3.0 + 2.0;
+    }
+}
+
+function updateTraffic(opp, deltaTime) {
+    opp.changeTimer -= deltaTime;
+    if (opp.changeTimer <= 0) {
+        opp.targetX = Math.random() * 1.2 - 0.6;
+        opp.changeTimer = Math.random() * 3 + 2;
+        opp.speed = 1500 + Math.random() * 1500;
     }
 }
 
@@ -112,6 +165,10 @@ export function drawOpponents(ctx) {
 }
 
 export function checkOpponentsCollision() {
+    if (state.mode === 'timed') {
+        return;
+    }
+
     const bikeScreenX = CANVAS_WIDTH / 2 + state.playerX * (CANVAS_WIDTH / 2);
     const bikeLeft = bikeScreenX - 60;
     const bikeRight = bikeScreenX + 60;
